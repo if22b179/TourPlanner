@@ -5,6 +5,7 @@ module org.example.tourplanner {
 
     requires org.controlsfx.controls;
     opens org.example.tourplanner.Controller to javafx.fxml;
+    opens org.example.tourplanner.Model to javafx.fxml;
 
 
     opens org.example.tourplanner to javafx.fxml;

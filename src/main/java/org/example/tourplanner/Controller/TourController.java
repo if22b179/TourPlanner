@@ -1,10 +1,14 @@
 package org.example.tourplanner.Controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import org.example.tourplanner.Model.Tour;
+
+import java.io.IOException;
 
 public class TourController {
     @FXML
@@ -29,7 +33,23 @@ public class TourController {
 
     @FXML
     public void addTour() {
-        // Platzhalter für die Funktion zum Hinzufügen einer Tour
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/tourplanner/addtour.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Neue Tour hinzufügen");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(tourListView.getScene().getWindow());
+            dialogStage.setScene(scene);
+
+            AddTourController addTourController = loader.getController();
+            addTourController.setMainController(this);
+            addTourController.setDialogStage(dialogStage);
+
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -39,7 +59,13 @@ public class TourController {
 
     @FXML
     public void deleteTour() {
-        // Platzhalter für die Funktion zum Löschen einer Tour
+        String selectedTour = tourListView.getSelectionModel().getSelectedItem();
+        if (selectedTour != null) {
+            int index = tourListView.getSelectionModel().getSelectedIndex();
+            tourListView.getItems().remove(index);
+        } else {
+            showAlert("Warnung", "Keine Tour ausgewählt", "Bitte wählen Sie eine Tour aus der Liste aus, bevor Sie löschen.");
+        }
     }
 
     @FXML
@@ -55,5 +81,13 @@ public class TourController {
     @FXML
     public void deleteTourLog() {
         // Platzhalter für die Funktion zum Löschen eines Tour-Logs
+    }
+
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

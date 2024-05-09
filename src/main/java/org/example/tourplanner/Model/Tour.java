@@ -7,8 +7,14 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
 public class Tour {
 
     private String name;
+    private String description;
+    private String from;
+    private String to;
+    private String transportType;
+    private double distance;
+    private String estimatedTime;
 }
