@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.tourplanner.Controller.TourController">
+  <top>
+    <MenuBar>
+      <Menu text="File">
+        <MenuItem text="Open"/>
+        <MenuItem text="Save"/>
+        <MenuItem text="Exit"/>
+      </Menu>
+      <Menu text="Edit">
+        <MenuItem text="Copy"/>
+        <MenuItem text="Paste"/>
+        <MenuItem text="Delete"/>
+      </Menu>
+      <Menu text="Options"/>
+      <Menu text="Help"/>
+    </MenuBar>
+  </top>
+  <center>
+    <SplitPane>
+      <items>
+        <VBox>
+          <Label text="Tours"/>
+          <HBox spacing="5">
+            <Button text="+" onAction="#addTour"/>
+            <Button text="-" onAction="#deleteTour"/>
+            <Button text="..." onAction="#editTour"/>
+          </HBox>
+          <ListView fx:id="tourListView"/>
+        </VBox>
+        <VBox spacing="5">
+          <TabPane>
+            <Tab text="General"/>
+            <Tab text="Route">
+              <content>
+                <VBox spacing="5">
+                  <Label fx:id="placeholderLabel" style="-fx-border-color: black;" prefWidth="400" prefHeight="150"/>
+                </VBox>
+              </content>
+            </Tab>
+            <Tab text="Misc"/>
+          </TabPane>
+          <Label text="Tour Logs"/>
+          <HBox spacing="5">
+            <Button text="+" onAction="#addTourLog"/>
+            <Button text="-" onAction="#deleteTourLog"/>
+            <Button text="..." onAction="#editTourLog"/>
+          </HBox>
+          <TableView fx:id="tourLogTable"/>
+        </VBox>
+      </items>
+    </SplitPane>
+  </center>
+  <bottom>
+    <TextField promptText="Search"/>
+  </bottom>
+</BorderPane>
