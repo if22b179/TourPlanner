@@ -23,6 +23,7 @@ public class EditTourController {
 
     private TourController mainController;
     private Stage dialogStage;
+    private Tour tourToEdit;
 
     @FXML
     public void initialize() {
@@ -37,6 +38,19 @@ public class EditTourController {
         this.dialogStage = dialogStage;
     }
 
+    public void setTourToEdit(Tour tour) {
+        this.tourToEdit = tour;
+
+        // populate the fields with the current values of the tour
+        nameField.setText(tour.getName());
+        descriptionField.setText(tour.getDescription());
+        fromField.setText(tour.getFrom());
+        toField.setText(tour.getTo());
+        transportTypeComboBox.setValue(tour.getTransportType());
+        distanceField.setText(Double.toString(tour.getDistance()));
+        estimatedTimeField.setText(tour.getEstimatedTime());
+    }
+    @FXML
     public void saveTour() {
         String name = nameField.getText();
         String description = descriptionField.getText();
@@ -53,7 +67,13 @@ public class EditTourController {
         String estimatedTime = estimatedTimeField.getText();
 
         if (!name.isEmpty() && !description.isEmpty() && !from.isEmpty() && !to.isEmpty() && !estimatedTime.isEmpty()) {
-            Tour updatedTour = new Tour(name, description, from, to, transportType, distance, estimatedTime);
+            tourToEdit.setName(name);
+            tourToEdit.setDescription(description);
+            tourToEdit.setFrom(from);
+            tourToEdit.setTo(to);
+            tourToEdit.setTransportType(transportType);
+            tourToEdit.setDistance(distance);
+
             mainController.editTour();
             dialogStage.close();
         } else {

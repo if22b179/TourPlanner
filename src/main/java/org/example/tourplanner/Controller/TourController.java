@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class TourController {
     @FXML
-    private ListView<String> tourListView;
+    private ListView<Tour> tourListView;
     @FXML
     private TableView<Object> tourLogTable;
     @FXML
@@ -22,7 +22,12 @@ public class TourController {
     @FXML
     public void initialize() {
         // Beispiel-Daten
-        tourListView.getItems().addAll("Wienerwald", "Dopplerhütte", "Figlwarte", "Dorfrunde");
+        tourListView.getItems().addAll(
+                new Tour("Wienerwald", "wald", "a", "b", "bike", 20, "2 hours"),
+                new Tour("Dopplerhütte", "qwe", "b", "c", "Hike", 10, "1 hours"),
+                new Tour("Figlwarte", "asd", "c", "d", "bike", 30, "3 hours"),
+                new Tour("Dorfrunde", "yxc", "d", "e", "Running", 12, "1 hours")
+        );
 
         TableColumn<Object, String> dateColumn = new TableColumn<>("Date");
         TableColumn<Object, String> durationColumn = new TableColumn<>("Duration");
@@ -56,7 +61,7 @@ public class TourController {
     @FXML
     public void editTour() {
         try {
-            String selectedTour = tourListView.getSelectionModel().getSelectedItem();
+            Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
             if (selectedTour == null) {
                 showAlert("Warnung", "Keine Tour ausgewählt", "Bitte wählen Sie eine Tour aus der Liste aus, bevor Sie bearbeiten.");
                 return;
@@ -72,7 +77,7 @@ public class TourController {
             EditTourController editTourController = loader.getController();
             editTourController.setMainController(this);
             editTourController.setDialogStage(dialogStage);
-            editTourController.saveTour();
+            editTourController.setTourToEdit(selectedTour);
 
             dialogStage.showAndWait();
         } catch (IOException e) {
@@ -82,7 +87,7 @@ public class TourController {
 
     @FXML
     public void deleteTour() {
-        String selectedTour = tourListView.getSelectionModel().getSelectedItem();
+        Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
         if (selectedTour != null) {
             int index = tourListView.getSelectionModel().getSelectedIndex();
             tourListView.getItems().remove(index);
