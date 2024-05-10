@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.example.tourplanner.HelloApplication;
 import org.example.tourplanner.Model.Tour;
 
 import java.io.IOException;
@@ -34,8 +35,8 @@ public class TourController {
     @FXML
     public void addTour() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/tourplanner/addtour.fxml"));
-            Scene scene = new Scene(loader.load());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/tourplanner/addTourWindow.fxml"));
+            Scene scene = new Scene(loader.load(), 500, 350);
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Neue Tour hinzufügen");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -54,7 +55,29 @@ public class TourController {
 
     @FXML
     public void editTour() {
-        // Platzhalter für die Funktion zum Bearbeiten einer Tour
+        try {
+            String selectedTour = tourListView.getSelectionModel().getSelectedItem();
+            if (selectedTour == null) {
+                showAlert("Warnung", "Keine Tour ausgewählt", "Bitte wählen Sie eine Tour aus der Liste aus, bevor Sie bearbeiten.");
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/tourplanner/editTourWindow.fxml"));
+            Scene scene = new Scene(loader.load(), 500, 350);
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Tour verändern");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(tourListView.getScene().getWindow());
+            dialogStage.setScene(scene);
+
+            EditTourController editTourController = loader.getController();
+            editTourController.setMainController(this);
+            editTourController.setDialogStage(dialogStage);
+            editTourController.saveTour();
+
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
