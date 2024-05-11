@@ -1,6 +1,7 @@
 package org.example.tourplanner.Model;
 
 
+import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -18,5 +19,6 @@ public class Tour {
     private String transportType;
     private double distance;
     private String estimatedTime;
+    private Image image;
 
 }

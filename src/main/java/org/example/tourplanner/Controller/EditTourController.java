@@ -23,6 +23,8 @@ public class EditTourController {
     private TextField distanceField;
     @FXML
     private TextField estimatedTimeField;
+    @FXML
+    private Label placeholderLabel;
 
     private TourController mainController;
     private Stage dialogStage;
@@ -36,6 +38,7 @@ public class EditTourController {
     @FXML
     public void initialize() {
         transportTypeComboBox.getSelectionModel().selectFirst();
+        placeholderLabel.setText("Placeholder for Route Image");
     }
 
     public void setMainController(TourController mainController) {

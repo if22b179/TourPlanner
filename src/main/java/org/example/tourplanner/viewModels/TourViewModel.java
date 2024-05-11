@@ -10,10 +10,10 @@ public class TourViewModel {
 
     private TourViewModel() {
         tours.addAll(
-                new Tour("Wienerwald", "wald", "a", "b", "bike", 20, "2 hours"),
-                new Tour("Dopplerhütte", "qwe", "b", "c", "Hike", 10, "1 hours"),
-                new Tour("Figlwarte", "asd", "c", "d", "bike", 30, "3 hours"),
-                new Tour("Dorfrunde", "yxc", "d", "e", "Running", 12, "1 hours")
+                new Tour("Wienerwald", "wald", "a", "b", "bike", 20, "2 hours", null),
+                new Tour("Dopplerhütte", "qwe", "b", "c", "Hike", 10, "1 hours", null),
+                new Tour("Figlwarte", "asd", "c", "d", "bike", 30, "3 hours", null),
+                new Tour("Dorfrunde", "yxc", "d", "e", "Running", 12, "1 hours", null)
         );
     }
 
@@ -54,5 +54,6 @@ public class TourViewModel {
         updatedTour.setTransportType(transportType);
         updatedTour.setDistance(distance);
         updatedTour.setEstimatedTime(estimatedTime);
+        updatedTour.setImage(null);
     }
 }

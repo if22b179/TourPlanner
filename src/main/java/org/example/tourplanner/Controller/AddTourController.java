@@ -23,6 +23,8 @@ public class AddTourController {
     private TextField distanceField;
     @FXML
     private TextField estimatedTimeField;
+    @FXML
+    private Label placeholderLabel;
 
     private TourController mainController;
     private Stage dialogStage;
@@ -35,6 +37,7 @@ public class AddTourController {
     @FXML
     public void initialize() {
         transportTypeComboBox.getSelectionModel().selectFirst();
+        placeholderLabel.setText("Placeholder for Route Image");
     }
 
     public void setMainController(TourController mainController) {
@@ -62,7 +65,7 @@ public class AddTourController {
         String estimatedTime = estimatedTimeField.getText();
 
         if (!name.isEmpty() && !description.isEmpty() && !from.isEmpty() && !to.isEmpty() && !estimatedTime.isEmpty()) {
-            Tour newTour = new Tour(name, description, from, to, transportType, distance, estimatedTime);
+            Tour newTour = new Tour(name, description, from, to, transportType, distance, estimatedTime, null);
             tourViewModel.addTour(newTour);
             dialogStage.close();
         } else {
