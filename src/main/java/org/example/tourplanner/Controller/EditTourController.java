@@ -4,6 +4,9 @@ import org.example.tourplanner.Model.Tour;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.tourplanner.viewModels.TourViewModel;
+
+import static org.example.tourplanner.viewModels.TourViewModel.getViewModel;
 
 public class EditTourController {
     @FXML
@@ -24,6 +27,11 @@ public class EditTourController {
     private TourController mainController;
     private Stage dialogStage;
     private Tour tourToEdit;
+    private TourViewModel tourViewModel;
+
+    public EditTourController() {
+        this.tourViewModel = getViewModel();
+    }
 
     @FXML
     public void initialize() {
@@ -67,14 +75,7 @@ public class EditTourController {
         String estimatedTime = estimatedTimeField.getText();
 
         if (!name.isEmpty() && !description.isEmpty() && !from.isEmpty() && !to.isEmpty() && !estimatedTime.isEmpty()) {
-            tourToEdit.setName(name);
-            tourToEdit.setDescription(description);
-            tourToEdit.setFrom(from);
-            tourToEdit.setTo(to);
-            tourToEdit.setTransportType(transportType);
-            tourToEdit.setDistance(distance);
-
-            mainController.editTour();
+            tourViewModel.editTour(tourToEdit, name, description, from, to, transportType, distance, estimatedTime);
             dialogStage.close();
         } else {
             showAlert("Warnung", "Alle Felder sind erforderlich", "Bitte füllen Sie alle Felder aus.");

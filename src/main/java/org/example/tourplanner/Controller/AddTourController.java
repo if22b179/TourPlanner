@@ -1,9 +1,12 @@
 package org.example.tourplanner.Controller;
 
-import org.example.tourplanner.Model.Tour;
+import  org.example.tourplanner.Model.Tour;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.tourplanner.viewModels.TourViewModel;
+
+import static org.example.tourplanner.viewModels.TourViewModel.getViewModel;
 
 public class AddTourController {
     @FXML
@@ -23,6 +26,11 @@ public class AddTourController {
 
     private TourController mainController;
     private Stage dialogStage;
+    private TourViewModel tourViewModel;
+
+    public AddTourController() {
+        this.tourViewModel = getViewModel();
+    }
 
     @FXML
     public void initialize() {
@@ -55,7 +63,7 @@ public class AddTourController {
 
         if (!name.isEmpty() && !description.isEmpty() && !from.isEmpty() && !to.isEmpty() && !estimatedTime.isEmpty()) {
             Tour newTour = new Tour(name, description, from, to, transportType, distance, estimatedTime);
-            mainController.addTour();
+            tourViewModel.addTour(newTour);
             dialogStage.close();
         } else {
             showAlert("Warnung", "Alle Felder sind erforderlich", "Bitte füllen Sie alle Felder aus.");

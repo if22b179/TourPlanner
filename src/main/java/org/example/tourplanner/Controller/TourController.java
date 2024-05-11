@@ -8,8 +8,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.tourplanner.HelloApplication;
 import org.example.tourplanner.Model.Tour;
+import org.example.tourplanner.viewModels.TourViewModel;
 
 import java.io.IOException;
+
+import static org.example.tourplanner.viewModels.TourViewModel.getViewModel;
 
 public class TourController {
     @FXML
@@ -19,15 +22,29 @@ public class TourController {
     @FXML
     private Label placeholderLabel;
 
+    private TourViewModel tourViewModel;
+
+    public TourController() {
+        this.tourViewModel = getViewModel();
+    }
+
     @FXML
     public void initialize() {
         // Beispiel-Daten
-        tourListView.getItems().addAll(
-                new Tour("Wienerwald", "wald", "a", "b", "bike", 20, "2 hours"),
-                new Tour("Dopplerhütte", "qwe", "b", "c", "Hike", 10, "1 hours"),
-                new Tour("Figlwarte", "asd", "c", "d", "bike", 30, "3 hours"),
-                new Tour("Dorfrunde", "yxc", "d", "e", "Running", 12, "1 hours")
-        );
+        tourListView.setItems(tourViewModel.getTours());
+        tourListView.setCellFactory(param -> new ListCell<Tour>() {
+            @Override
+            protected void updateItem(Tour tour, boolean empty) {
+                super.updateItem(tour, empty);
+
+                if (empty || tour == null) {
+                    setText(null);
+                } else {
+                    setText(tour.getName());
+                }
+            }
+        });
+
 
         TableColumn<Object, String> dateColumn = new TableColumn<>("Date");
         TableColumn<Object, String> durationColumn = new TableColumn<>("Duration");
@@ -91,6 +108,7 @@ public class TourController {
         if (selectedTour != null) {
             int index = tourListView.getSelectionModel().getSelectedIndex();
             tourListView.getItems().remove(index);
+            tourViewModel.removeTour(selectedTour);
         } else {
             showAlert("Warnung", "Keine Tour ausgewählt", "Bitte wählen Sie eine Tour aus der Liste aus, bevor Sie löschen.");
         }
