@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.example.tourplanner.HelloApplication;
 import org.example.tourplanner.Model.Tour;
 import org.example.tourplanner.viewModels.TourViewModel;
 
