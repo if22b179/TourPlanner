@@ -47,12 +47,21 @@
             <Tab text="Misc"/>
           </TabPane>
           <Label text="Tour Logs"/>
-          <HBox spacing="5">
-            <Button text="+" onAction="#addTourLog"/>
-            <Button text="-" onAction="#deleteTourLog"/>
-            <Button text="..." onAction="#editTourLog"/>
+          <TableView fx:id="tourLogTable">
+            <columns>
+              <TableColumn fx:id="dateTimeColumn" text="Date/Time" />
+              <TableColumn fx:id="commentColumn" text="Comment" />
+              <TableColumn fx:id="difficultyColumn" text="Difficulty" />
+              <TableColumn fx:id="distanceColumn" text="Distance" />
+              <TableColumn fx:id="timeColumn" text="Time" />
+              <TableColumn fx:id="ratingColumn" text="Rating" />
+            </columns>
+          </TableView>
+          <HBox>
+            <Button text="Add Log" onAction="#addTourLog" />
+            <Button text="Edit Log" onAction="#editTourLog" />
+            <Button text="Delete Log" onAction="#deleteTourLog" />
           </HBox>
-          <TableView fx:id="tourLogTable"/>
         </VBox>
       </items>
     </SplitPane>

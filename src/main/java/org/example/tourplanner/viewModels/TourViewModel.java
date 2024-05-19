@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.example.tourplanner.Model.Tour;
+import org.example.tourplanner.Model.TourLog;
 
 public class TourViewModel {
     private ObservableList<Tour> tours = FXCollections.observableArrayList();
@@ -77,5 +78,13 @@ public class TourViewModel {
         updatedTour.setDistance(new SimpleDoubleProperty(distance));
         updatedTour.setEstimatedTime(new SimpleStringProperty(estimatedTime));
         updatedTour.setImage(null);
+    }
+
+    public void addTourLog(Tour tour, TourLog log) {
+        tour.getTourLogs().add(log);
+    }
+
+    public void removeTourLog(Tour tour, TourLog log) {
+        tour.getTourLogs().remove(log);
     }
 }

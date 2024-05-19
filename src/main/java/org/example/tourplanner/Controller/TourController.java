@@ -1,12 +1,17 @@
 package org.example.tourplanner.Controller;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.tourplanner.Model.Tour;
+import org.example.tourplanner.Model.TourLog;
 import org.example.tourplanner.viewModels.TourViewModel;
 
 import java.io.IOException;
@@ -14,10 +19,14 @@ import java.io.IOException;
 import static org.example.tourplanner.viewModels.TourViewModel.getViewModel;
 
 public class TourController {
-    @FXML
-    private ListView<Tour> tourListView;
-    @FXML
-    private TableView<Object> tourLogTable;
+    @FXML private ListView<Tour> tourListView;
+    @FXML private TableView<TourLog> tourLogTable;
+    @FXML private TableColumn<TourLog, String> dateTimeColumn;
+    @FXML private TableColumn<TourLog, String> commentColumn;
+    @FXML private TableColumn<TourLog, Integer> difficultyColumn;
+    @FXML private TableColumn<TourLog, Double> distanceColumn;
+    @FXML private TableColumn<TourLog, String> timeColumn;
+    @FXML private TableColumn<TourLog, Integer> ratingColumn;
     @FXML
     private Label placeholderLabel;
 
@@ -45,11 +54,19 @@ public class TourController {
         });
 
 
-        TableColumn<Object, String> dateColumn = new TableColumn<>("Date");
-        TableColumn<Object, String> durationColumn = new TableColumn<>("Duration");
-        TableColumn<Object, String> distanceColumn = new TableColumn<>("Distance");
+        tourListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                tourLogTable.setItems(newSelection.getTourLogs());
+            }
+        });
 
-        tourLogTable.getColumns().addAll(dateColumn, durationColumn, distanceColumn);
+        dateTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getDateTime());
+        commentColumn.setCellValueFactory(cellData -> cellData.getValue().getComment());
+        difficultyColumn.setCellValueFactory(cellData -> cellData.getValue().getDifficulty().asObject());
+        distanceColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalDistance().asObject());
+        timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalTime());
+        ratingColumn.setCellValueFactory(cellData -> cellData.getValue().getRating().asObject());
+
         placeholderLabel.setText("Placeholder for Route Image");
     }
 
@@ -113,19 +130,23 @@ public class TourController {
         }
     }
 
-    @FXML
-    public void addTourLog() {
-        // Platzhalter für die Funktion zum Hinzufügen eines Tour-Logs
+    @FXML public void addTourLog() {
+        openTourLogWindow(null);
     }
 
-    @FXML
-    public void editTourLog() {
-        // Platzhalter für die Funktion zum Bearbeiten eines Tour-Logs
+    @FXML public void editTourLog() {
+        TourLog selectedLog = tourLogTable.getSelectionModel().getSelectedItem();
+        if (selectedLog != null) {
+            openTourLogWindow(selectedLog);
+        }
     }
 
-    @FXML
-    public void deleteTourLog() {
-        // Platzhalter für die Funktion zum Löschen eines Tour-Logs
+    @FXML public void deleteTourLog() {
+        TourLog selectedLog = tourLogTable.getSelectionModel().getSelectedItem();
+        if (selectedLog != null) {
+            Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
+            tourViewModel.removeTourLog(selectedTour, selectedLog);
+        }
     }
 
     private void showAlert(String title, String header, String content) {
@@ -134,5 +155,27 @@ public class TourController {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void openTourLogWindow(TourLog tourLog) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/tourplanner/tourLogWindow.fxml"));
+            Parent root = loader.load();
+
+            TourLogController controller = loader.getController();
+            controller.setTour(tourListView.getSelectionModel().getSelectedItem());
+            controller.setTourViewModel(tourViewModel);
+            if (tourLog != null) {
+                controller.setTourLog(tourLog);
+            }
+
+            Stage stage = new Stage();
+            stage.setTitle(tourLog == null ? "Add Tour Log" : "Edit Tour Log");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
