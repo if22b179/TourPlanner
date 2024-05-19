@@ -1,12 +1,14 @@
-package org.example.tourplanner.viewModels;
+package org.example.tourplanner.viewmodel;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lombok.Getter;
 import org.example.tourplanner.Model.Tour;
 import org.example.tourplanner.Model.TourLog;
 
+@Getter
 public class TourViewModel {
     private ObservableList<Tour> tours = FXCollections.observableArrayList();
     private static TourViewModel viewModel;
@@ -47,10 +49,6 @@ public class TourViewModel {
         return viewModel;
     }
 
-    public ObservableList<Tour> getTours() {
-        return tours;
-    }
-
     public void addTour(Tour tour) {
         tours.add(tour);
     }
@@ -70,13 +68,13 @@ public class TourViewModel {
 
     public void editTour(Tour oldTour, String name, String description, String from, String to, String transportType, double distance, String estimatedTime) {
         Tour updatedTour = getTourByName(oldTour.getName().toString());
-        updatedTour.setName(new SimpleStringProperty(name));
-        updatedTour.setDescription(new SimpleStringProperty(description));
-        updatedTour.setFrom(new SimpleStringProperty(from));
-        updatedTour.setTo(new SimpleStringProperty(to));
-        updatedTour.setTransportType(new SimpleStringProperty(transportType));
-        updatedTour.setDistance(new SimpleDoubleProperty(distance));
-        updatedTour.setEstimatedTime(new SimpleStringProperty(estimatedTime));
+        updatedTour.setName(name);
+        updatedTour.setDescription(description);
+        updatedTour.setFrom(from);
+        updatedTour.setTo(to);
+        updatedTour.setTransportType(transportType);
+        updatedTour.setDistance(distance);
+        updatedTour.setEstimatedTime(estimatedTime);
         updatedTour.setImage(null);
     }
 

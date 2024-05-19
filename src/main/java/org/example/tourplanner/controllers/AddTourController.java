@@ -1,14 +1,16 @@
-package org.example.tourplanner.Controller;
+package org.example.tourplanner.controllers;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import org.example.tourplanner.Model.Tour;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.tourplanner.viewModels.TourViewModel;
+import org.example.tourplanner.viewmodel.TourViewModel;
 
-import static org.example.tourplanner.viewModels.TourViewModel.getViewModel;
+import static org.example.tourplanner.viewmodel.TourViewModel.getViewModel;
 
-public class EditTourController {
+public class AddTourController {
     @FXML
     private TextField nameField;
     @FXML
@@ -28,10 +30,9 @@ public class EditTourController {
 
     private TourController mainController;
     private Stage dialogStage;
-    private Tour tourToEdit;
     private TourViewModel tourViewModel;
 
-    public EditTourController() {
+    public AddTourController() {
         this.tourViewModel = getViewModel();
     }
 
@@ -49,25 +50,13 @@ public class EditTourController {
         this.dialogStage = dialogStage;
     }
 
-    public void setTourToEdit(Tour tour) {
-        this.tourToEdit = tour;
-
-        // populate the fields with the current values of the tour
-        nameField.setText(tour.getName().get());
-        descriptionField.setText(tour.getDescription().get());
-        fromField.setText(tour.getFrom().get());
-        toField.setText(tour.getTo().get());
-        transportTypeComboBox.setValue(tour.getTransportType().get());
-        distanceField.setText(String.valueOf(tour.getDistance().get()));
-        estimatedTimeField.setText(tour.getEstimatedTime().get());
-    }
     @FXML
     public void saveTour() {
         String name = nameField.getText();
         String description = descriptionField.getText();
         String from = fromField.getText();
         String to = toField.getText();
-        String transportType = transportTypeComboBox.getValue();
+        String transportType = transportTypeComboBox.getSelectionModel().getSelectedItem();
         double distance;
         try {
             distance = Double.parseDouble(distanceField.getText());
@@ -78,7 +67,15 @@ public class EditTourController {
         String estimatedTime = estimatedTimeField.getText();
 
         if (!name.isEmpty() && !description.isEmpty() && !from.isEmpty() && !to.isEmpty() && !estimatedTime.isEmpty()) {
-            tourViewModel.editTour(tourToEdit, name, description, from, to, transportType, distance, estimatedTime);
+            Tour newTour = new Tour(new SimpleStringProperty(name),
+                                    new SimpleStringProperty(description),
+                                    new SimpleStringProperty(from),
+                                    new SimpleStringProperty(to),
+                                    new SimpleStringProperty(transportType),
+                                    new SimpleDoubleProperty(distance),
+                                    new SimpleStringProperty(estimatedTime),
+                                    null);
+            tourViewModel.addTour(newTour);
             dialogStage.close();
         } else {
             showAlert("Warnung", "Alle Felder sind erforderlich", "Bitte füllen Sie alle Felder aus.");

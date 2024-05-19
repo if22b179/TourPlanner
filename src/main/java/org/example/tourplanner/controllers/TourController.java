@@ -1,8 +1,6 @@
-package org.example.tourplanner.Controller;
+package org.example.tourplanner.controllers;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,11 +10,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.tourplanner.Model.Tour;
 import org.example.tourplanner.Model.TourLog;
-import org.example.tourplanner.viewModels.TourViewModel;
+import org.example.tourplanner.viewmodel.TourViewModel;
+
 
 import java.io.IOException;
 
-import static org.example.tourplanner.viewModels.TourViewModel.getViewModel;
+import static org.example.tourplanner.viewmodel.TourViewModel.getViewModel;
+
 
 public class TourController {
     @FXML private ListView<Tour> tourListView;
@@ -38,35 +38,38 @@ public class TourController {
 
     @FXML
     public void initialize() {
-        // Beispiel-Daten
+        // Initialisieren der ListView für Touren
         tourListView.setItems(tourViewModel.getTours());
         tourListView.setCellFactory(param -> new ListCell<Tour>() {
             @Override
             protected void updateItem(Tour tour, boolean empty) {
                 super.updateItem(tour, empty);
-
                 if (empty || tour == null) {
                     setText(null);
                 } else {
-                    setText(tour.getName().get());
+                    setText(tour.getName());
                 }
             }
         });
 
-
+        // Listener hinzufügen, um die Tour Logs der ausgewählten Tour anzuzeigen
         tourListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 tourLogTable.setItems(newSelection.getTourLogs());
+            } else {
+                tourLogTable.setItems(null);
             }
         });
 
-        dateTimeColumn.setCellValueFactory(cellData -> cellData.getValue().getDateTime());
-        commentColumn.setCellValueFactory(cellData -> cellData.getValue().getComment());
-        difficultyColumn.setCellValueFactory(cellData -> cellData.getValue().getDifficulty().asObject());
-        distanceColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalDistance().asObject());
-        timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTotalTime());
-        ratingColumn.setCellValueFactory(cellData -> cellData.getValue().getRating().asObject());
+        // Initialisieren der TableColumns für Tour Logs
+        dateTimeColumn.setCellValueFactory(cellData -> cellData.getValue().dateTimeProperty());
+        commentColumn.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
+        difficultyColumn.setCellValueFactory(cellData -> cellData.getValue().difficultyProperty().asObject());
+        distanceColumn.setCellValueFactory(cellData -> cellData.getValue().totalDistanceProperty().asObject());
+        timeColumn.setCellValueFactory(cellData -> cellData.getValue().totalTimeProperty().asObject().asString());
+        ratingColumn.setCellValueFactory(cellData -> cellData.getValue().ratingProperty().asObject());
 
+        // Placeholder für das Routenbild
         placeholderLabel.setText("Placeholder for Route Image");
     }
 
@@ -131,21 +134,31 @@ public class TourController {
     }
 
     @FXML public void addTourLog() {
-        openTourLogWindow(null);
+        if (isTourSelected()) {
+            openTourLogWindow(null);
+        }
     }
 
     @FXML public void editTourLog() {
-        TourLog selectedLog = tourLogTable.getSelectionModel().getSelectedItem();
-        if (selectedLog != null) {
-            openTourLogWindow(selectedLog);
+        if (isTourSelected()) {
+            TourLog selectedLog = tourLogTable.getSelectionModel().getSelectedItem();
+            if (selectedLog != null) {
+                openTourLogWindow(selectedLog);
+            } else {
+                showAlert("No Log Selected", "Please select a log", "You must select a log to edit.");
+            }
         }
     }
 
     @FXML public void deleteTourLog() {
-        TourLog selectedLog = tourLogTable.getSelectionModel().getSelectedItem();
-        if (selectedLog != null) {
-            Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
-            tourViewModel.removeTourLog(selectedTour, selectedLog);
+        if (isTourSelected()) {
+            TourLog selectedLog = tourLogTable.getSelectionModel().getSelectedItem();
+            if (selectedLog != null) {
+                Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
+                tourViewModel.removeTourLog(selectedTour, selectedLog);
+            } else {
+                showAlert("No Log Selected", "Please select a log", "You must select a log to delete.");
+            }
         }
     }
 
@@ -178,4 +191,14 @@ public class TourController {
             e.printStackTrace();
         }
     }
+
+    private boolean isTourSelected() {
+        Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
+        if (selectedTour == null) {
+            showAlert("No Tour Selected", "Please select a tour", "You must select a tour to proceed.");
+            return false;
+        }
+        return true;
+    }
+
 }
