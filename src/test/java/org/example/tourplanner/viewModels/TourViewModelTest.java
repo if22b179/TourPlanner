@@ -1,5 +1,7 @@
 package org.example.tourplanner.viewModels;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import org.example.tourplanner.Model.Tour;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +41,14 @@ public class TourViewModelTest {
 
     @Test
     public void testAddTour() {
-        Tour newTour = new Tour("New Tour", "description", "from", "to", "bike", 15, "1.5 hours", null);
+        Tour newTour = new Tour(new SimpleStringProperty("New Tour"),
+                                new SimpleStringProperty("description"),
+                                new SimpleStringProperty("from"),
+                                new SimpleStringProperty("to"),
+                                new SimpleStringProperty("bike"),
+                                new SimpleDoubleProperty(15),
+                                new SimpleStringProperty("1.5 hours"),
+                                null);
         viewModel.addTour(newTour);
 
         Tour addedTour = viewModel.getTourByName("New Tour");

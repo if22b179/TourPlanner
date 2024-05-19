@@ -53,13 +53,13 @@ public class EditTourController {
         this.tourToEdit = tour;
 
         // populate the fields with the current values of the tour
-        nameField.setText(tour.getName());
-        descriptionField.setText(tour.getDescription());
-        fromField.setText(tour.getFrom());
-        toField.setText(tour.getTo());
-        transportTypeComboBox.setValue(tour.getTransportType());
-        distanceField.setText(Double.toString(tour.getDistance()));
-        estimatedTimeField.setText(tour.getEstimatedTime());
+        nameField.setText(tour.getName().get());
+        descriptionField.setText(tour.getDescription().get());
+        fromField.setText(tour.getFrom().get());
+        toField.setText(tour.getTo().get());
+        transportTypeComboBox.setValue(tour.getTransportType().get());
+        distanceField.setText(String.valueOf(tour.getDistance().get()));
+        estimatedTimeField.setText(tour.getEstimatedTime().get());
     }
     @FXML
     public void saveTour() {

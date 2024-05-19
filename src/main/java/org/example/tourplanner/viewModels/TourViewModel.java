@@ -1,5 +1,7 @@
 package org.example.tourplanner.viewModels;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.example.tourplanner.Model.Tour;
@@ -10,11 +12,31 @@ public class TourViewModel {
 
     private TourViewModel() {
         tours.addAll(
-                new Tour("Wienerwald", "wald", "a", "b", "bike", 20, "2 hours", null),
-                new Tour("Dopplerhütte", "qwe", "b", "c", "Hike", 10, "1 hours", null),
-                new Tour("Figlwarte", "asd", "c", "d", "bike", 30, "3 hours", null),
-                new Tour("Dorfrunde", "yxc", "d", "e", "Running", 12, "1 hours", null)
-        );
+                new Tour(new SimpleStringProperty("Wienerwald"),
+                         new SimpleStringProperty("wald"),
+                         new SimpleStringProperty("a"),
+                         new SimpleStringProperty("b"),
+                         new SimpleStringProperty("bike"),
+                         new SimpleDoubleProperty(20),
+                         new SimpleStringProperty("2 hours"),
+                         null),
+                new Tour(new SimpleStringProperty("Dopplerhütte"),
+                        new SimpleStringProperty("wald"),
+                        new SimpleStringProperty("a"),
+                        new SimpleStringProperty("b"),
+                        new SimpleStringProperty("bike"),
+                        new SimpleDoubleProperty(10),
+                        new SimpleStringProperty("2 hours"),
+                        null),
+                new Tour(new SimpleStringProperty("Dorfrunde"),
+                        new SimpleStringProperty("wald"),
+                        new SimpleStringProperty("a"),
+                        new SimpleStringProperty("b"),
+                        new SimpleStringProperty("bike"),
+                        new SimpleDoubleProperty(15),
+                        new SimpleStringProperty("2 hours"),
+                        null)
+                );
     }
 
     public static TourViewModel getViewModel() {
@@ -38,7 +60,7 @@ public class TourViewModel {
 
     public Tour getTourByName(String name){
         for (Tour tour : tours) {
-            if (tour.getName().equalsIgnoreCase(name)) {
+            if (tour.getName().toString().equalsIgnoreCase(name)) {
                 return tour;
             }
         }
@@ -46,14 +68,14 @@ public class TourViewModel {
     }
 
     public void editTour(Tour oldTour, String name, String description, String from, String to, String transportType, double distance, String estimatedTime) {
-        Tour updatedTour = getTourByName(oldTour.getName());
-        updatedTour.setName(name);
-        updatedTour.setDescription(description);
-        updatedTour.setFrom(from);
-        updatedTour.setTo(to);
-        updatedTour.setTransportType(transportType);
-        updatedTour.setDistance(distance);
-        updatedTour.setEstimatedTime(estimatedTime);
+        Tour updatedTour = getTourByName(oldTour.getName().toString());
+        updatedTour.setName(new SimpleStringProperty(name));
+        updatedTour.setDescription(new SimpleStringProperty(description));
+        updatedTour.setFrom(new SimpleStringProperty(from));
+        updatedTour.setTo(new SimpleStringProperty(to));
+        updatedTour.setTransportType(new SimpleStringProperty(transportType));
+        updatedTour.setDistance(new SimpleDoubleProperty(distance));
+        updatedTour.setEstimatedTime(new SimpleStringProperty(estimatedTime));
         updatedTour.setImage(null);
     }
 }

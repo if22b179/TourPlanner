@@ -1,6 +1,8 @@
 package org.example.tourplanner.Model;
 
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,13 +14,13 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Tour {
 
-    private String name;
-    private String description;
-    private String from;
-    private String to;
-    private String transportType;
-    private double distance;
-    private String estimatedTime;
-    private Image image;
+    private SimpleStringProperty name;
+    private SimpleStringProperty description;
+    private SimpleStringProperty from;
+    private SimpleStringProperty to;
+    private SimpleStringProperty transportType;
+    private SimpleDoubleProperty distance;
+    private SimpleStringProperty estimatedTime;
+    private SimpleObjectProperty<Image> image;
 
 }

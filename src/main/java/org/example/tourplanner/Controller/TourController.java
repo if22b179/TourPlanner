@@ -39,7 +39,7 @@ public class TourController {
                 if (empty || tour == null) {
                     setText(null);
                 } else {
-                    setText(tour.getName());
+                    setText(tour.getName().get());
                 }
             }
         });

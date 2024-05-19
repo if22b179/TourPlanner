@@ -1,5 +1,7 @@
 package org.example.tourplanner.Controller;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import  org.example.tourplanner.Model.Tour;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -65,7 +67,14 @@ public class AddTourController {
         String estimatedTime = estimatedTimeField.getText();
 
         if (!name.isEmpty() && !description.isEmpty() && !from.isEmpty() && !to.isEmpty() && !estimatedTime.isEmpty()) {
-            Tour newTour = new Tour(name, description, from, to, transportType, distance, estimatedTime, null);
+            Tour newTour = new Tour(new SimpleStringProperty(name),
+                                    new SimpleStringProperty(description),
+                                    new SimpleStringProperty(from),
+                                    new SimpleStringProperty(to),
+                                    new SimpleStringProperty(transportType),
+                                    new SimpleDoubleProperty(distance),
+                                    new SimpleStringProperty(estimatedTime),
+                                    null);
             tourViewModel.addTour(newTour);
             dialogStage.close();
         } else {
