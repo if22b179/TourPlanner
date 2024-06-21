@@ -7,7 +7,7 @@ import org.example.tourplanner.viewmodel.TourViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TourViewModelTest {
     private TourViewModel viewModel;
@@ -18,26 +18,27 @@ public class TourViewModelTest {
     }
 
     @Test
-    public void testEditTour() {
-        Tour oldTour = viewModel.getTourByName("Wienerwald");
-        String newName = "New Name";
-        String newDescription = "Updated description";
-        String newFrom = "Updated from";
-        String newTo = "Updated to";
-        String newTransportType = "Updated transport";
-        double newDistance = 25.0;
-        String newEstimatedTime = "2.5 hours";
+    public void testRemoveTour() {
+        // Arrange
+        Tour tourToRemove = new Tour(
+                new SimpleStringProperty("TestTour"),
+                new SimpleStringProperty("Description"),
+                new SimpleStringProperty("A"),
+                new SimpleStringProperty("B"),
+                new SimpleStringProperty("Bike"),
+                new SimpleDoubleProperty(10.0),
+                new SimpleStringProperty("1 hour"),
+                null
+        );
+        viewModel.addTour(tourToRemove);
 
-        viewModel.editTour(oldTour, newName, newDescription, newFrom, newTo, newTransportType, newDistance, newEstimatedTime);
+        // Act
+        viewModel.removeTour(tourToRemove);
 
-        Tour updatedTour = viewModel.getTourByName(newName);
-        assertEquals(newName, updatedTour.getName());
-        assertEquals(newDescription, updatedTour.getDescription());
-        assertEquals(newFrom, updatedTour.getFrom());
-        assertEquals(newTo, updatedTour.getTo());
-        assertEquals(newTransportType, updatedTour.getTransportType());
-        assertEquals(newDistance, updatedTour.getDistance());
-        assertEquals(newEstimatedTime, updatedTour.getEstimatedTime());
+        // Assert
+        assertFalse(viewModel.getTours().contains(tourToRemove), "Tour should be removed from the list");
+        // Constructor of viewModel adds 3 as default
+        assertEquals(4, viewModel.getTours().size(), "Tour list should be empty after removal");
     }
 
     @Test
