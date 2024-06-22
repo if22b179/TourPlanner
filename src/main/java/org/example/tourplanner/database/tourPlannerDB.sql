@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS tour (
-    tour_id VARCHAR(255) PRIMARY KEY,
+    tour_id SERIAL PRIMARY KEY,
     description VARCHAR(255) NOT NULL,
     fromDest VARCHAR(255) NOT NULL,
     toDest VARCHAR(255) NOT NULL,
@@ -10,14 +10,16 @@ CREATE TABLE IF NOT EXISTS tour (
 );
 
 CREATE TABLE IF NOT EXISTS tourlogs (
-    tourlogs_id VARCHAR(255) PRIMARY KEY,
+    tourlogs_id SERIAL PRIMARY KEY,
     dateTime VARCHAR(255) NOT NULL,
     comment VARCHAR(255) NOT NULL,
     difficulty INT NOT NULL,
     totalDistance DOUBLE PRECISION NOT NULL,
     totalTime DOUBLE PRECISION NOT NULL,
     rating INT NOT NULL,
-    tour_id VARCHAR(255) NOT NULL,
+    tour_id INT NOT NULL,
     FOREIGN KEY (tour_id) REFERENCES tour(tour_id)  ON DELETE CASCADE
 );
+
+
 
