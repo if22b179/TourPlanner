@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.tourplanner.controllers.TourLogController">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.tourplanner.UI.controllers.TourLogController">
     <children>
         <GridPane>
             <padding>

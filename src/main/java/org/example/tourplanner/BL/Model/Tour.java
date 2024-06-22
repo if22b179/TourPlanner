@@ -1,4 +1,4 @@
-package org.example.tourplanner.Model;
+package org.example.tourplanner.BL.Model;
 
 
 import javafx.beans.property.SimpleObjectProperty;

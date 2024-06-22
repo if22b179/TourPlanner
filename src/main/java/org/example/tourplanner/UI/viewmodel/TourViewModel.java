@@ -1,12 +1,12 @@
-package org.example.tourplanner.viewmodel;
+package org.example.tourplanner.UI.viewmodel;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
-import org.example.tourplanner.Model.Tour;
-import org.example.tourplanner.Model.TourLog;
+import org.example.tourplanner.BL.Model.Tour;
+import org.example.tourplanner.BL.Model.TourLog;
 
 @Getter
 public class TourViewModel {

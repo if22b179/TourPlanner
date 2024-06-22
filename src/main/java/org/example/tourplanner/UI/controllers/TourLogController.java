@@ -1,11 +1,11 @@
-package org.example.tourplanner.controllers;
+package org.example.tourplanner.UI.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.tourplanner.Model.Tour;
-import org.example.tourplanner.Model.TourLog;
-import org.example.tourplanner.viewmodel.TourViewModel;
+import org.example.tourplanner.BL.Model.Tour;
+import org.example.tourplanner.BL.Model.TourLog;
+import org.example.tourplanner.UI.viewmodel.TourViewModel;
 
 public class TourLogController {
     @FXML

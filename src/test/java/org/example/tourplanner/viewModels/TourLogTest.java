@@ -2,8 +2,7 @@ package org.example.tourplanner.viewModels;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import org.example.tourplanner.Model.TourLog;
+import org.example.tourplanner.BL.Model.TourLog;
 import org.junit.jupiter.api.Test;
 
 public class TourLogTest {

@@ -1,4 +1,4 @@
-package org.example.tourplanner.controllers;
+package org.example.tourplanner.UI.controllers;
 
 
 import javafx.fxml.FXML;
@@ -8,14 +8,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.example.tourplanner.Model.Tour;
-import org.example.tourplanner.Model.TourLog;
-import org.example.tourplanner.viewmodel.TourViewModel;
+import org.example.tourplanner.BL.Model.Tour;
+import org.example.tourplanner.BL.Model.TourLog;
+import org.example.tourplanner.UI.viewmodel.TourViewModel;
 
 
 import java.io.IOException;
 
-import static org.example.tourplanner.viewmodel.TourViewModel.getViewModel;
+import static org.example.tourplanner.UI.viewmodel.TourViewModel.getViewModel;
 
 
 public class TourController {

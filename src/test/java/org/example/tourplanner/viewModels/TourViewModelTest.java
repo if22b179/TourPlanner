@@ -2,8 +2,8 @@ package org.example.tourplanner.viewModels;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import org.example.tourplanner.Model.Tour;
-import org.example.tourplanner.viewmodel.TourViewModel;
+import org.example.tourplanner.BL.Model.Tour;
+import org.example.tourplanner.UI.viewmodel.TourViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

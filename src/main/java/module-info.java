@@ -4,14 +4,17 @@ module org.example.tourplanner {
     requires lombok;
     requires org.controlsfx.controls;
 
+    // Main package
     opens org.example.tourplanner to javafx.fxml;
     exports org.example.tourplanner;
 
-    exports org.example.tourplanner.controllers;
-    opens org.example.tourplanner.controllers to javafx.fxml;
-    exports org.example.tourplanner.viewmodel;
-    opens org.example.tourplanner.viewmodel to javafx.fxml;
+    // UI package
+    exports org.example.tourplanner.UI.controllers;
+    opens org.example.tourplanner.UI.controllers to javafx.fxml;
+    exports org.example.tourplanner.UI.viewmodel;
+    opens org.example.tourplanner.UI.viewmodel to javafx.fxml;
 
-    exports org.example.tourplanner.Model;
-    opens org.example.tourplanner.Model to javafx.fxml;
+    // BL package
+    exports org.example.tourplanner.BL.Model;
+    opens org.example.tourplanner.BL.Model to javafx.fxml;
 }
