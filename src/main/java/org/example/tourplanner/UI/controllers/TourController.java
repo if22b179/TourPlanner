@@ -1,6 +1,9 @@
 package org.example.tourplanner.UI.controllers;
 
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -55,19 +58,19 @@ public class TourController {
         // Listener hinzufügen, um die Tour Logs der ausgewählten Tour anzuzeigen
         tourListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                tourLogTable.setItems(newSelection.getTourLogs());
+                tourLogTable.setItems((ObservableList<TourLog>) newSelection.getTourLogs());
             } else {
                 tourLogTable.setItems(null);
             }
         });
 
         // Initialisieren der TableColumns für Tour Logs
-        dateTimeColumn.setCellValueFactory(cellData -> cellData.getValue().dateTimeProperty());
-        commentColumn.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
-        difficultyColumn.setCellValueFactory(cellData -> cellData.getValue().difficultyProperty().asObject());
-        distanceColumn.setCellValueFactory(cellData -> cellData.getValue().totalDistanceProperty().asObject());
-        timeColumn.setCellValueFactory(cellData -> cellData.getValue().totalTimeProperty().asObject().asString());
-        ratingColumn.setCellValueFactory(cellData -> cellData.getValue().ratingProperty().asObject());
+        dateTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDateTime()));
+        commentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getComment()));
+        difficultyColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDifficulty()));
+        distanceColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalDistance()));
+        timeColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalTime()).asString());
+        ratingColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRating()));
 
         // Placeholder für das Routenbild
         placeholderLabel.setText("Placeholder for Route Image");
