@@ -67,13 +67,13 @@ public class AddTourController {
         String estimatedTime = estimatedTimeField.getText();
 
         if (!name.isEmpty() && !description.isEmpty() && !from.isEmpty() && !to.isEmpty() && !estimatedTime.isEmpty()) {
-            Tour newTour = new Tour(new SimpleStringProperty(name),
-                                    new SimpleStringProperty(description),
-                                    new SimpleStringProperty(from),
-                                    new SimpleStringProperty(to),
-                                    new SimpleStringProperty(transportType),
-                                    new SimpleDoubleProperty(distance),
-                                    new SimpleStringProperty(estimatedTime),
+            Tour newTour = new Tour(name,
+                                    description,
+                                    from,
+                                    to,
+                                    transportType,
+                                    distance,
+                                    estimatedTime,
                                     null);
             tourViewModel.addTour(newTour);
             dialogStage.close();

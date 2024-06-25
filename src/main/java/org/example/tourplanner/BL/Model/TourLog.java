@@ -1,96 +1,48 @@
 package org.example.tourplanner.BL.Model;
 
-import javafx.beans.property.*;
+import javax.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "tourLogs")
+@Data
+@NoArgsConstructor
 public class TourLog {
-    private final StringProperty dateTime;
-    private final StringProperty comment;
-    private final IntegerProperty difficulty;
-    private final DoubleProperty totalDistance;
-    private final DoubleProperty totalTime;
-    private final IntegerProperty rating;
 
-    public TourLog(String dateTime, String comment, String difficulty, String totalDistance, String totalTime, String rating) {
-        this.dateTime = new SimpleStringProperty(dateTime);
-        this.comment = new SimpleStringProperty(comment);
-        this.difficulty = new SimpleIntegerProperty(Integer.parseInt(difficulty));
-        this.totalDistance = new SimpleDoubleProperty(Double.parseDouble(totalDistance));
-        this.totalTime = new SimpleDoubleProperty(Double.parseDouble(totalTime));
-        this.rating = new SimpleIntegerProperty(Integer.parseInt(rating));
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tourLogs_id")
+    private Integer id;
 
-    // Getter-Methoden
-    public String getDateTime() {
-        return dateTime.get();
-    }
+    @Column(name = "dateTime", nullable = false)
+    private String dateTime;
 
-    public String getComment() {
-        return comment.get();
-    }
+    @Column(name = "comment", nullable = false)
+    private String comment;
 
-    public int getDifficulty() {
-        return difficulty.get();
-    }
+    @Column(name = "difficulty", nullable = false)
+    private Integer difficulty;
 
-    public double getTotalDistance() {
-        return totalDistance.get();
-    }
+    @Column(name = "totalDistance", nullable = false)
+    private Double totalDistance;
 
-    public double getTotalTime() {
-        return totalTime.get();
-    }
+    @Column(name = "totalTime", nullable = false)
+    private Double totalTime;
 
-    public int getRating() {
-        return rating.get();
-    }
+    @Column(name = "rating", nullable = false)
+    private Integer rating;
 
-    // Setter-Methoden
-    public void setDateTime(String dateTime) {
-        this.dateTime.set(dateTime);
-    }
+    @ManyToOne
+    @JoinColumn(name = "tour_id", nullable = false)
+    private Tour tour;
 
-    public void setComment(String comment) {
-        this.comment.set(comment);
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty.set(difficulty);
-    }
-
-    public void setTotalDistance(double totalDistance) {
-        this.totalDistance.set(totalDistance);
-    }
-
-    public void setTotalTime(double totalTime) {
-        this.totalTime.set(totalTime);
-    }
-
-    public void setRating(int rating) {
-        this.rating.set(rating);
-    }
-
-    // Property-Getter für Bindungen
-    public StringProperty dateTimeProperty() {
-        return dateTime;
-    }
-
-    public StringProperty commentProperty() {
-        return comment;
-    }
-
-    public IntegerProperty difficultyProperty() {
-        return difficulty;
-    }
-
-    public DoubleProperty totalDistanceProperty() {
-        return totalDistance;
-    }
-
-    public DoubleProperty totalTimeProperty() {
-        return totalTime;
-    }
-
-    public IntegerProperty ratingProperty() {
-        return rating;
+    public TourLog(String dateTime, String comment, Integer difficulty, Double totalDistance, Double totalTime, Integer rating) {
+        this.dateTime = dateTime;
+        this.comment = comment;
+        this.difficulty = difficulty;
+        this.totalDistance = totalDistance;
+        this.totalTime = totalTime;
+        this.rating = rating;
     }
 }

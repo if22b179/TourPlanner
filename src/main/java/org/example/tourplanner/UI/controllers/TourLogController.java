@@ -67,10 +67,10 @@ public class TourLogController {
             TourLog newLog = new TourLog(
                     dateTimeField.getText(),
                     commentField.getText(),
-                    String.valueOf(difficultySpinner.getValue()),
-                    totalDistanceField.getText(),
-                    totalTimeField.getText(),
-                    String.valueOf(ratingSpinner.getValue())
+                    difficultySpinner.getValue(),
+                    Double.parseDouble(totalDistanceField.getText()),
+                    Double.parseDouble(totalTimeField.getText()),
+                    ratingSpinner.getValue()
             );
             tourViewModel.addTourLog(tour, newLog);
         } else {

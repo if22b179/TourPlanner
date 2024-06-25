@@ -2,7 +2,10 @@ module org.example.tourplanner {
     requires javafx.controls;
     requires javafx.fxml;
     requires lombok;
-    requires org.controlsfx.controls;
+    requires java.persistence;
+    requires org.hibernate.orm.core;
+    requires java.naming;
+
 
     // Main package
     opens org.example.tourplanner to javafx.fxml;
@@ -16,5 +19,15 @@ module org.example.tourplanner {
 
     // BL package
     exports org.example.tourplanner.BL.Model;
-    opens org.example.tourplanner.BL.Model to javafx.fxml;
+    opens org.example.tourplanner.BL.Model to org.hibernate.orm.core, javafx.fxml;
+
+    //exports org.example.tourplanner.BL.Services;
+    //opens org.example.tourplanner.BL.Services to org.hibernate.orm.core;
+
+    // DAL package
+    exports org.example.tourplanner.DAL.repository;
+    opens org.example.tourplanner.DAL.repository to org.hibernate.orm.core;
+
+    //exports org.example.tourplanner.DAL.database;
+    //opens org.example.tourplanner.DAL.database to org.hibernate.orm.core;
 }

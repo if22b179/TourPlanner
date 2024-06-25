@@ -21,13 +21,13 @@ public class TourViewModelTest {
     public void testRemoveTour() {
         // Arrange
         Tour tourToRemove = new Tour(
-                new SimpleStringProperty("TestTour"),
-                new SimpleStringProperty("Description"),
-                new SimpleStringProperty("A"),
-                new SimpleStringProperty("B"),
-                new SimpleStringProperty("Bike"),
-                new SimpleDoubleProperty(10.0),
-                new SimpleStringProperty("1 hour"),
+                "TestTour",
+                "Description",
+                "A",
+                "B",
+                "Bike",
+                10.0,
+                "1 hour",
                 null
         );
         viewModel.addTour(tourToRemove);
@@ -43,13 +43,13 @@ public class TourViewModelTest {
 
     @Test
     public void testAddTour() {
-        Tour newTour = new Tour(new SimpleStringProperty("New Tour"),
-                                new SimpleStringProperty("description"),
-                                new SimpleStringProperty("from"),
-                                new SimpleStringProperty("to"),
-                                new SimpleStringProperty("bike"),
-                                new SimpleDoubleProperty(15),
-                                new SimpleStringProperty("1.5 hours"),
+        Tour newTour = new Tour("New Tour",
+                                "description",
+                                "from",
+                                "to",
+                                "bike",
+                                15.0,
+                                "1.5 hours",
                                 null);
         viewModel.addTour(newTour);
 

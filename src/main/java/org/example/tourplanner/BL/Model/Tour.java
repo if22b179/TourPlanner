@@ -1,133 +1,51 @@
 package org.example.tourplanner.BL.Model;
 
-
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
 import lombok.Data;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "tour")
 @Data
 @NoArgsConstructor
 public class Tour {
 
-    private SimpleStringProperty name;
-    private SimpleStringProperty description;
-    private SimpleStringProperty from;
-    private SimpleStringProperty to;
-    private SimpleStringProperty transportType;
-    private SimpleDoubleProperty distance;
-    private SimpleStringProperty estimatedTime;
-    private SimpleObjectProperty<Image> image;
-    private ObservableList<TourLog> tourLogs;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tour_id")
+    private Integer id;
 
-    public String getName() {
-        return name.get();
-    }
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
+    @Column(name = "description", nullable = false)
+    private String description;
 
-    public void setName(String name) {
-        this.name.set(name);
-    }
+    @Column(name = "fromDest", nullable = false)
+    private String from;
 
-    public String getDescription() {
-        return description.get();
-    }
+    @Column(name = "toDest", nullable = false)
+    private String to;
 
-    public SimpleStringProperty descriptionProperty() {
-        return description;
-    }
+    @Column(name = "transportType", nullable = false)
+    private String transportType;
 
-    public void setDescription(String description) {
-        this.description.set(description);
-    }
+    @Column(name = "distance", nullable = false)
+    private Double distance;
 
-    public String getFrom() {
-        return from.get();
-    }
+    @Column(name = "estimatedTime", nullable = false)
+    private String estimatedTime;
 
-    public SimpleStringProperty fromProperty() {
-        return from;
-    }
+    @Column(name = "image", nullable = false)
+    private String image;
 
-    public void setFrom(String from) {
-        this.from.set(from);
-    }
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TourLog> tourLogs = new ArrayList<>();
 
-    public String getTo() {
-        return to.get();
-    }
-
-    public SimpleStringProperty toProperty() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to.set(to);
-    }
-
-    public String getTransportType() {
-        return transportType.get();
-    }
-
-    public SimpleStringProperty transportTypeProperty() {
-        return transportType;
-    }
-
-    public void setTransportType(String transportType) {
-        this.transportType.set(transportType);
-    }
-
-    public double getDistance() {
-        return distance.get();
-    }
-
-    public SimpleDoubleProperty distanceProperty() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance.set(distance);
-    }
-
-    public String getEstimatedTime() {
-        return estimatedTime.get();
-    }
-
-    public SimpleStringProperty estimatedTimeProperty() {
-        return estimatedTime;
-    }
-
-    public void setEstimatedTime(String estimatedTime) {
-        this.estimatedTime.set(estimatedTime);
-    }
-
-    public Image getImage() {
-        return image.get();
-    }
-
-    public SimpleObjectProperty<Image> imageProperty() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image.set(image);
-    }
-
-    public Tour(SimpleStringProperty name,
-                SimpleStringProperty description,
-                SimpleStringProperty from,
-                SimpleStringProperty to,
-                SimpleStringProperty transportType,
-                SimpleDoubleProperty distance,
-                SimpleStringProperty estimatedTime,
-                SimpleObjectProperty<Image> image) {
+    public Tour(String name, String description, String from, String to, String transportType, Double distance, String estimatedTime, String image) {
         this.name = name;
         this.description = description;
         this.from = from;
@@ -136,6 +54,5 @@ public class Tour {
         this.distance = distance;
         this.estimatedTime = estimatedTime;
         this.image = image;
-        this.tourLogs = FXCollections.observableArrayList();
     }
 }

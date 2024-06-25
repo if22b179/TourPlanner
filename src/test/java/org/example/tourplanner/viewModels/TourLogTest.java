@@ -12,10 +12,10 @@ public class TourLogTest {
         // Testdaten
         String dateTime = "2023-05-18T10:15:30";
         String comment = "Great hike, beautiful weather.";
-        String difficulty = "3";
-        String totalDistance = "12.5";
-        String totalTime = "5.0";
-        String rating = "4";
+        Integer difficulty = 3;
+        Double totalDistance = 12.5;
+        Double totalTime = 5.0;
+        Integer rating = 4;
 
         // TourLog-Objekt erstellen
         TourLog tourLog = new TourLog(dateTime, comment, difficulty , totalDistance, totalTime, rating);
@@ -32,7 +32,7 @@ public class TourLogTest {
     @Test
     public void testTourLogModification() {
         // TourLog-Objekt erstellen
-        TourLog tourLog = new TourLog("Old DateTime", "Old Comment", "2", "10.0", "4.0", "3");
+        TourLog tourLog = new TourLog("Old DateTime", "Old Comment", 2, 10.0, 4.0, 3);
 
         // Änderungen vornehmen
         tourLog.setDateTime("New DateTime");

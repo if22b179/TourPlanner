@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS tour (
     tour_id SERIAL PRIMARY KEY,
+    name Varchar(255) NOT NULL ,
     description VARCHAR(255) NOT NULL,
     fromDest VARCHAR(255) NOT NULL,
     toDest VARCHAR(255) NOT NULL,
@@ -21,5 +22,5 @@ CREATE TABLE IF NOT EXISTS tourlogs (
     FOREIGN KEY (tour_id) REFERENCES tour(tour_id)  ON DELETE CASCADE
 );
 
-
+DROP  TABLE tour
 
