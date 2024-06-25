@@ -133,6 +133,33 @@ public class TourController {
         }
     }
 
+    @FXML
+    public void tourDetails() {
+        try {
+            Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
+            if (selectedTour == null) {
+                showAlert("Warnung", "Keine Tour ausgewählt", "Bitte wählen Sie eine Tour aus der Liste aus, bevor Sie bearbeiten.");
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/tourplanner/tourDetailsWindow.fxml"));
+            Scene scene = new Scene(loader.load(), 500, 350);
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Tour details");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(tourListView.getScene().getWindow());
+            dialogStage.setScene(scene);
+
+            EditTourController editTourController = loader.getController();
+            editTourController.setMainController(this);
+            editTourController.setDialogStage(dialogStage);
+            editTourController.setTourToEdit(selectedTour);
+
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML public void addTourLog() {
         if (isTourSelected()) {
             openTourLogWindow(null);
