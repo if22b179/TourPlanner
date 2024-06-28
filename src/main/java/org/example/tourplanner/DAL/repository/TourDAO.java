@@ -5,6 +5,8 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.util.List;
+
 
 public class TourDAO extends BaseCrudDAO<Tour> {
 
@@ -49,6 +51,21 @@ public class TourDAO extends BaseCrudDAO<Tour> {
             return tour;
         } catch (Exception e) {
             System.out.println("Failed to find tour with name {}");
+            return null;
+        }
+    }
+
+    public List<Tour> findAll() {
+        try (Session session = getSession()) {
+            Query<Tour> query = session.createQuery("FROM Tour", Tour.class);
+            List<Tour> tours = query.list();
+            for (Tour tour : tours) {
+                Hibernate.initialize(tour.getTourLogs());
+            }
+            return tours;
+        } catch (Exception e) {
+            System.out.println("Failed to find all tours: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }

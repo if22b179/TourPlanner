@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TourDAOTest {
@@ -57,6 +59,18 @@ public class TourDAOTest {
             assertNull(deletedTour, "Tour should be deleted");
         } catch (Exception e) {
             fail("Failed to delete tour: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testFindAllTours() {
+        try {
+            List<Tour> tours = tourDAO.findAll();
+            assertNotNull(tours, "The tour list should not be null");
+            assertTrue(tours.size() > 0, "The tour list should not be empty");
+            System.out.println("Number of tours found: " + tours.size());
+        } catch (Exception e) {
+            fail("Failed to find all tours: " + e.getMessage());
         }
     }
 

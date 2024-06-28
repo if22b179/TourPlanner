@@ -21,8 +21,8 @@ module org.example.tourplanner {
     exports org.example.tourplanner.BL.Model;
     opens org.example.tourplanner.BL.Model to org.hibernate.orm.core, javafx.fxml;
 
-    //exports org.example.tourplanner.BL.Services;
-    //opens org.example.tourplanner.BL.Services to org.hibernate.orm.core;
+    exports org.example.tourplanner.BL.Services;
+    opens org.example.tourplanner.BL.Services to org.hibernate.orm.core;
 
     // DAL package
     exports org.example.tourplanner.DAL.repository;

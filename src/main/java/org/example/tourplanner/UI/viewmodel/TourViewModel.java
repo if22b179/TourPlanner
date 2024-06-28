@@ -4,42 +4,22 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import lombok.Getter;
 import org.example.tourplanner.BL.Model.Tour;
 import org.example.tourplanner.BL.Model.TourLog;
+import org.example.tourplanner.BL.Services.TourService;
+
+import java.util.List;
 
 @Getter
 public class TourViewModel {
     private ObservableList<Tour> tours = FXCollections.observableArrayList();
     private static TourViewModel viewModel;
+    private final TourService tourService = new TourService();
 
     private TourViewModel() {
-        tours.addAll(
-                new Tour("Wienerwald",
-                         "wald",
-                         "a",
-                         "b",
-                         "bike",
-                         20.0,
-                         "2 hours",
-                         null),
-                new Tour("Dopplerhütte",
-                        "wald",
-                        "a",
-                        "b",
-                        "bike",
-                        10.0,
-                        "2 hours",
-                        null),
-                new Tour("Dorfrunde",
-                        "wald",
-                        "a",
-                        "b",
-                        "bike",
-                        15.0,
-                        "2 hours",
-                        null)
-                );
+        loadTours();
     }
 
     public static TourViewModel getViewModel() {
@@ -49,12 +29,18 @@ public class TourViewModel {
         return viewModel;
     }
 
+    private void loadTours() {
+
+    }
+
     public void addTour(Tour tour) {
         tours.add(tour);
+        tourService.addTour(tour);
     }
 
     public void removeTour(Tour tour) {
         tours.remove(tour);
+        tourService.deleteTour(tour);
     }
 
     public Tour getTourByName(String name){
@@ -76,6 +62,7 @@ public class TourViewModel {
         updatedTour.setDistance(distance);
         updatedTour.setEstimatedTime(estimatedTime);
         updatedTour.setImage(null);
+        tourService.updateTour(updatedTour);
     }
 
     public void addTourLog(Tour tour, TourLog log) {
