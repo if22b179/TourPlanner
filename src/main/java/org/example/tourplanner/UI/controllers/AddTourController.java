@@ -2,6 +2,7 @@ package org.example.tourplanner.UI.controllers;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.example.tourplanner.BL.Model.Tour;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,7 +10,7 @@ import javafx.stage.Stage;
 import org.example.tourplanner.UI.viewmodel.TourViewModel;
 
 import static org.example.tourplanner.UI.viewmodel.TourViewModel.getViewModel;
-
+@Slf4j
 public class AddTourController {
     @FXML
     private TextField nameField;
@@ -61,6 +62,7 @@ public class AddTourController {
         try {
             distance = Double.parseDouble(distanceField.getText());
         } catch (NumberFormatException e) {
+            log.warn("Invalid distance input: {}", distanceField.getText(), e);
             showAlert("Warnung", "Ungültige Distanz", "Bitte geben Sie eine gültige Distanz ein.");
             return;
         }
@@ -76,8 +78,10 @@ public class AddTourController {
                                     estimatedTime,
                                     null);
             tourViewModel.addTour(newTour);
+            log.info("Tour saved: {}", newTour);
             dialogStage.close();
         } else {
+            log.warn("Failed to save tour: not all fields are filled.");
             showAlert("Warnung", "Alle Felder sind erforderlich", "Bitte füllen Sie alle Felder aus.");
         }
     }

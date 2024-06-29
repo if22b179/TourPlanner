@@ -4,6 +4,7 @@ package org.example.tourplanner.UI.controllers;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,16 +12,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.example.tourplanner.BL.Model.Tour;
 import org.example.tourplanner.BL.Model.TourLog;
+import org.example.tourplanner.BL.Services.PDFService;
 import org.example.tourplanner.UI.viewmodel.TourViewModel;
 
 
 import java.io.IOException;
 
+
 import static org.example.tourplanner.UI.viewmodel.TourViewModel.getViewModel;
 
-
+@Slf4j
 public class TourController {
     @FXML private ListView<Tour> tourListView;
     @FXML private TableView<TourLog> tourLogTable;
@@ -34,9 +38,11 @@ public class TourController {
     private Label placeholderLabel;
 
     private TourViewModel tourViewModel;
+    private final PDFService pdfService;
 
     public TourController() {
         this.tourViewModel = getViewModel();
+        this.pdfService = PDFService.getPDFService();
     }
 
     @FXML
@@ -93,7 +99,7 @@ public class TourController {
 
             dialogStage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load addTourWindow.fxml", e);
         }
     }
 
@@ -102,6 +108,7 @@ public class TourController {
         try {
             Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
             if (selectedTour == null) {
+                log.warn("No tour selected for editing.");
                 showAlert("Warnung", "Keine Tour ausgewählt", "Bitte wählen Sie eine Tour aus der Liste aus, bevor Sie bearbeiten.");
                 return;
             }
@@ -120,7 +127,7 @@ public class TourController {
 
             dialogStage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load editTourWindow.fxml", e);
         }
     }
 
@@ -131,7 +138,9 @@ public class TourController {
             int index = tourListView.getSelectionModel().getSelectedIndex();
             tourListView.getItems().remove(index);
             tourViewModel.removeTour(selectedTour);
+            log.debug("Deleted tour: {}", selectedTour.getName());
         } else {
+            log.warn("No tour selected for deletion.");
             showAlert("Warnung", "Keine Tour ausgewählt", "Bitte wählen Sie eine Tour aus der Liste aus, bevor Sie löschen.");
         }
     }
@@ -141,6 +150,7 @@ public class TourController {
         try {
             Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
             if (selectedTour == null) {
+                log.warn("No tour selected for viewing details.");
                 showAlert("Warnung", "Keine Tour ausgewählt", "Bitte wählen Sie eine Tour aus der Liste aus, bevor Sie bearbeiten.");
                 return;
             }
@@ -159,7 +169,7 @@ public class TourController {
 
             dialogStage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load tourDetailsWindow.fxml", e);
         }
     }
 
@@ -175,6 +185,7 @@ public class TourController {
             if (selectedLog != null) {
                 openTourLogWindow(selectedLog);
             } else {
+                log.warn("No log selected for editing.");
                 showAlert("No Log Selected", "Please select a log", "You must select a log to edit.");
             }
         }
@@ -186,7 +197,9 @@ public class TourController {
             if (selectedLog != null) {
                 Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
                 tourViewModel.removeTourLog(selectedTour, selectedLog);
+                log.debug("Deleted tour log: {}", selectedLog);
             } else {
+                log.warn("No log selected for deletion.");
                 showAlert("No Log Selected", "Please select a log", "You must select a log to delete.");
             }
         }
@@ -218,7 +231,7 @@ public class TourController {
             stage.setScene(new Scene(root));
             stage.showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("failed to open tour log window", e);
         }
     }
 
@@ -229,6 +242,17 @@ public class TourController {
             return false;
         }
         return true;
+    }
+
+    @FXML
+    public void generatePDF(ActionEvent actionEvent) {
+        try{
+            pdfService.createTourListPDF("src/main/resources/TourList.pdf");
+            System.out.println("PDF generated successfully.");
+        } catch (Exception e) {
+            log.error("failed to generate pdf", e);
+            throw new RuntimeException(e);
+        }
     }
 
 }

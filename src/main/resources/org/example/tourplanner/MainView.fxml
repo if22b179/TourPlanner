@@ -32,6 +32,7 @@
             <Button text="-" onAction="#deleteTour"/>
             <Button text="..." onAction="#editTour"/>
             <Button text="Details" onAction="#tourDetails"/>
+            <Button text="Generate PDF" onAction="#generatePDF"/>
           </HBox>
           <ListView fx:id="tourListView"/>
         </VBox>

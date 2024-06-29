@@ -30,7 +30,15 @@ public class TourViewModel {
     }
 
     private void loadTours() {
-
+        try {
+            List<Tour> dbTours = tourService.getAllTours();
+            System.out.println(dbTours);
+            tours.setAll(dbTours);
+            System.out.println(tours);
+        } catch (Exception e) {
+            System.err.println("Failed to load tours from the database: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void addTour(Tour tour) {
@@ -44,12 +52,8 @@ public class TourViewModel {
     }
 
     public Tour getTourByName(String name){
-        for (Tour tour : tours) {
-            if (tour.getName().toString().equalsIgnoreCase(name)) {
-                return tour;
-            }
-        }
-        return null;
+
+        return tourService.getTourByName(name);
     }
 
     public void editTour(Tour oldTour, String name, String description, String from, String to, String transportType, double distance, String estimatedTime) {

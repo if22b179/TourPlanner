@@ -1,13 +1,16 @@
 package org.example.tourplanner.UI.controllers;
 
+import javafx.event.ActionEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.example.tourplanner.BL.Model.Tour;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.tourplanner.BL.Services.PDFService;
 import org.example.tourplanner.UI.viewmodel.TourViewModel;
 
 import static org.example.tourplanner.UI.viewmodel.TourViewModel.getViewModel;
-
+@Slf4j
 public class EditTourController {
     @FXML
     private TextField nameField;
@@ -31,8 +34,11 @@ public class EditTourController {
     private Tour tourToEdit;
     private TourViewModel tourViewModel;
 
+    private final PDFService pdfService;
+
     public EditTourController() {
         this.tourViewModel = getViewModel();
+        this.pdfService = PDFService.getPDFService();
     }
 
     @FXML
@@ -72,6 +78,7 @@ public class EditTourController {
         try {
             distance = Double.parseDouble(distanceField.getText());
         } catch (NumberFormatException e) {
+            log.warn("Invalid distance input: {}", distanceField.getText(), e);
             showAlert("Warnung", "Ungültige Distanz", "Bitte geben Sie eine gültige Distanz ein.");
             return;
         }
@@ -79,8 +86,10 @@ public class EditTourController {
 
         if (!name.isEmpty() && !description.isEmpty() && !from.isEmpty() && !to.isEmpty() && !estimatedTime.isEmpty()) {
             tourViewModel.editTour(tourToEdit, name, description, from, to, transportType, distance, estimatedTime);
+            log.info("Tour updated: {}", tourToEdit);
             dialogStage.close();
         } else {
+            log.warn("Failed to save tour: not all fields are filled.");
             showAlert("Warnung", "Alle Felder sind erforderlich", "Bitte füllen Sie alle Felder aus.");
         }
     }
@@ -88,6 +97,18 @@ public class EditTourController {
     @FXML
     public void cancel() {
         dialogStage.close();
+    }
+
+    @FXML
+    public void generateTourPDF(ActionEvent actionEvent) {
+        String filename = nameField.getText() + ".pdf";
+        try{
+            pdfService.createTourPDF("src/main/resources/" + filename, nameField.getText());
+            System.out.println("PDF generated successfully.");
+        } catch (Exception e) {
+            log.error("failed to generate pdf", e);
+            throw new RuntimeException(e);
+        }
     }
 
     private void showAlert(String title, String header, String content) {

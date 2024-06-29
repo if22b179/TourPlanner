@@ -1,9 +1,11 @@
 package org.example.tourplanner.DAL.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.tourplanner.DAL.hibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+@Slf4j
 public abstract class BaseCrudDAO<T> {
 
     protected Session getSession() {
@@ -20,7 +22,7 @@ public abstract class BaseCrudDAO<T> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Failed to save {} in Database");
+            log.error("Failed to save {} in Database", entity.getClass().getSimpleName(), e);
         }
     }
 
@@ -34,7 +36,7 @@ public abstract class BaseCrudDAO<T> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Failed to update {} in Database");
+            log.error("Failed to update {} in Database", entity.getClass().getSimpleName(), e);
         }
     }
 
@@ -48,7 +50,7 @@ public abstract class BaseCrudDAO<T> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("Failed to delete {} in Database");
+            log.error("Failed to delete {} in Database", entity.getClass().getSimpleName(), e);
         }
     }
 

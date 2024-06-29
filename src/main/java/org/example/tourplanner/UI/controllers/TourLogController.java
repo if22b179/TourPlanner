@@ -3,10 +3,11 @@ package org.example.tourplanner.UI.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.example.tourplanner.BL.Model.Tour;
 import org.example.tourplanner.BL.Model.TourLog;
 import org.example.tourplanner.UI.viewmodel.TourViewModel;
-
+@Slf4j
 public class TourLogController {
     @FXML
     private TextField dateTimeField;
@@ -90,6 +91,7 @@ public class TourLogController {
         // Validate date/time format
         if (dateTimeField.getText().isEmpty()) {
             // Add more sophisticated date/time validation if needed
+            log.warn("No Date/Time inserted");
             showAlert("Warning","Date/Time empty","Please insert a Date/Time");
             return false;
         }
@@ -97,6 +99,7 @@ public class TourLogController {
         // validate comment
         if (commentField.getText().isEmpty()) {
             // Add more sophisticated date/time validation if needed
+            log.warn("No comment written");
             showAlert("Warning","Comment empty","Please write a short comment");
             return false;
         }
@@ -105,6 +108,7 @@ public class TourLogController {
         try {
             Double.parseDouble(totalDistanceField.getText());
         } catch (NumberFormatException e) {
+            log.warn("No valid number inserted");
             showAlert("Warning","Total Distance is not a Number","Please insert a valid Number");
             return false;
         }
@@ -113,6 +117,7 @@ public class TourLogController {
         try {
             Double.parseDouble(totalTimeField.getText());
         } catch (NumberFormatException e) {
+            log.warn("No valid number inserted");
             showAlert("Warning","Total Time is not a Number","Please insert a valid Number");
             return false;
         }

@@ -45,4 +45,9 @@
         <Label fx:id="placeholderLabel" style="-fx-border-color: black;" prefWidth="400" prefHeight="150"/>
     </VBox>
 
+    <HBox spacing="10">
+        <Button text="Generate PDF" onAction="#generateTourPDF"/>
+        <Button text="Abbrechen" onAction="#cancel"/>
+    </HBox>
+
 </VBox>

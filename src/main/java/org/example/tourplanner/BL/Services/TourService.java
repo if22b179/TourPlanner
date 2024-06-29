@@ -18,6 +18,10 @@ public class TourService implements IntTourService {
     public List<Tour> getAllTours() {
         return tourDAO.findAll();
     }
+    @Override
+    public Tour getTourByName(String name) {
+        return tourDAO.findByName(name);
+    }
 
     @Override
     public void addTour(Tour tour) {

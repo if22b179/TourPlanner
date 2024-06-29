@@ -1,5 +1,6 @@
 package org.example.tourplanner.DAL.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.tourplanner.BL.Model.Tour;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -7,7 +8,7 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-
+@Slf4j
 public class TourDAO extends BaseCrudDAO<Tour> {
 
     @Override
@@ -18,7 +19,7 @@ public class TourDAO extends BaseCrudDAO<Tour> {
             super.save(tour);
             System.out.println("nach save");
         } catch (Exception e) {
-            System.out.println("Failed to save tour with id in TourDAO Class {}");
+            log.error("Failed to save tour with id {}", tour.getId(), e);
         }
     }
 
@@ -27,7 +28,7 @@ public class TourDAO extends BaseCrudDAO<Tour> {
         try {
             super.update(tour);
         } catch (Exception e) {
-            System.out.println("Failed to update tour with id {}");
+            log.error("Failed to update tour with id {}", tour.getId(), e);
         }
     }
 
@@ -36,7 +37,7 @@ public class TourDAO extends BaseCrudDAO<Tour> {
         try {
             super.delete(tour);
         } catch (Exception e) {
-            System.out.println("Failed to delete tour with id {}");
+            log.error("Failed to delete tour with id {}", tour.getId(), e);
         }
     }
 
@@ -50,7 +51,7 @@ public class TourDAO extends BaseCrudDAO<Tour> {
             }
             return tour;
         } catch (Exception e) {
-            System.out.println("Failed to find tour with name {}");
+            log.error("Failed to find tour with name {}", name, e);
             return null;
         }
     }
@@ -64,7 +65,7 @@ public class TourDAO extends BaseCrudDAO<Tour> {
             }
             return tours;
         } catch (Exception e) {
-            System.out.println("Failed to find all tours: " + e.getMessage());
+            log.error("Failed to find tours with id", e);
             e.printStackTrace();
             return null;
         }

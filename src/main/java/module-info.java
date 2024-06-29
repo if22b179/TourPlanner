@@ -5,6 +5,11 @@ module org.example.tourplanner {
     requires java.persistence;
     requires org.hibernate.orm.core;
     requires java.naming;
+    requires java.sql;
+    requires org.slf4j;
+    requires kernel;
+    requires layout;
+    requires io;
 
 
     // Main package
