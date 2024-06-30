@@ -5,6 +5,7 @@ import org.example.tourplanner.BL.Model.RouteInfo;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.example.tourplanner.BL.Model.Tour;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -16,18 +17,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
+import java.util.UUID;
 
 public class OpenRouteService {
 
-    private static final String CONFIG_FILE = "/config.properties";
+    private static final String CFG_FILE = "/config.properties";
     private static final String API_KEY;
     private static final String BASE_URL;
     private static final String GEOCODE_URL;
 
     static {
-        try (InputStream input = OpenRouteService.class.getResourceAsStream(CONFIG_FILE)) {
+        try (InputStream input = OpenRouteService.class.getResourceAsStream(CFG_FILE)) {
             if (input == null) {
-                throw new RuntimeException("Sorry, unable to find " + CONFIG_FILE);
+                throw new RuntimeException("Sorry, unable to find " + CFG_FILE);
             }
             Properties properties = new Properties();
             properties.load(input);
@@ -58,7 +60,7 @@ public class OpenRouteService {
         return new double[]{coordinates.get(1).getAsDouble(), coordinates.get(0).getAsDouble()};
     }
 
-    public RouteInfo parseRoute(String jsonResponse) {
+    public RouteInfo getInfo(String jsonResponse) {
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
         if (jsonObject.has("error")) {
             String errorMessage = jsonObject.get("error").getAsString();
@@ -79,16 +81,16 @@ public class OpenRouteService {
         return new RouteInfo(distance, duration);
     }
 
-    /*public BufferedImage fetchMapForTour(Tour tour, int zoom, int gridSize) throws IOException {
+    public BufferedImage fetchMapForTour(Tour tour, int zoom, int gridSize) throws IOException {
         double[] fromCoords = null;
         try {
-            fromCoords = geocodeAddress(tour.getOrigin());
+            fromCoords = geocodeAddress(tour.getFrom());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         double[] toCoords = null;
         try {
-            toCoords = geocodeAddress(tour.getDestination());
+            toCoords = geocodeAddress(tour.getTo());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -113,7 +115,7 @@ public class OpenRouteService {
 
         ImageIO.write(image, "png", destinationPath.toFile());
         return destinationPath.toString();
-    }*/
+    }
 
     private String makeHttpRequest(String urlString) throws Exception {
         URI uri = new URI(urlString);

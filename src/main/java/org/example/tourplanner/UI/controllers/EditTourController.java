@@ -1,6 +1,8 @@
 package org.example.tourplanner.UI.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
 import org.example.tourplanner.BL.Model.Tour;
 import javafx.fxml.FXML;
@@ -27,7 +29,7 @@ public class EditTourController {
     @FXML
     private TextField estimatedTimeField;
     @FXML
-    private Label placeholderLabel;
+    private ImageView mapImageView;
 
     private TourController mainController;
     private Stage dialogStage;
@@ -44,7 +46,6 @@ public class EditTourController {
     @FXML
     public void initialize() {
         transportTypeComboBox.getSelectionModel().selectFirst();
-        placeholderLabel.setText("Placeholder for Route Image");
     }
 
     public void setMainController(TourController mainController) {
@@ -66,6 +67,12 @@ public class EditTourController {
         transportTypeComboBox.setValue(tour.getTransportType());
         distanceField.setText(String.valueOf(tour.getDistance()));
         estimatedTimeField.setText(tour.getEstimatedTime());
+        if (tour.getImage() != null && !tour.getImage().isEmpty()) {
+            Image image = new Image(tour.getImage());
+            mapImageView.setImage(image);
+        } else {
+            mapImageView.setImage(null);  // Setze auf null oder ein Standardbild
+        }
     }
     @FXML
     public void saveTour() {

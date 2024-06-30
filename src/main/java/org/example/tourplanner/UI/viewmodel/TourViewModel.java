@@ -11,6 +11,8 @@ import org.example.tourplanner.BL.Services.OpenRouteService;
 import org.example.tourplanner.BL.Services.TourLogService;
 import org.example.tourplanner.BL.Services.TourService;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 
 @Getter
@@ -44,7 +46,8 @@ public class TourViewModel {
     }
 
     public void addTour(Tour tour) {
-        fetchRouteDetails(tour);
+        getRouteInfo(tour);
+        getMapImage(tour);
         tours.add(tour);
         tourService.addTour(tour);
     }
@@ -101,7 +104,7 @@ public class TourViewModel {
         };
     }
 
-    private void fetchRouteDetails(Tour tour) {
+    private void getRouteInfo(Tour tour) {
         String from = tour.getFrom();
         String to = tour.getTo();
         String transportType = makeTransportTypeApiCompatible(tour.getTransportType());
@@ -111,7 +114,7 @@ public class TourViewModel {
             double[] toCoords = openRouteService.geocodeAddress(to);
 
             String response = openRouteService.getRoute(Double.toString(fromCoords[0]), Double.toString(fromCoords[1]), Double.toString(toCoords[0]), Double.toString(toCoords[1]), transportType);
-            RouteInfo routeInfo = openRouteService.parseRoute(response);
+            RouteInfo routeInfo = openRouteService.getInfo(response);
             if (routeInfo != null) {
                 tour.setDistance(routeInfo.getDistance());
                 tour.setEstimatedTime(String.valueOf(routeInfo.getDuration()));
@@ -121,6 +124,17 @@ public class TourViewModel {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Couldn't load Details from OpenRouteService");
+        }
+    }
+
+    public void getMapImage(Tour tour) {
+        try {
+            BufferedImage mapImage = openRouteService.fetchMapForTour(tour, 17, 3); // Adjusted zoom level
+            String imagePath = openRouteService.saveImage(mapImage);
+            tour.setImage(imagePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error("Failed to fetch map image: " + e.getMessage());
         }
     }
 
