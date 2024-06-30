@@ -11,6 +11,8 @@ module org.example.tourplanner {
     requires layout;
     requires io;
 
+    requires jdk.jsobject;
+
     requires javafx.graphics;
     requires java.desktop;
 
@@ -21,7 +23,7 @@ module org.example.tourplanner {
 
 
     // Main package
-    opens org.example.tourplanner to javafx.fxml;
+    opens org.example.tourplanner to javafx.fxml, javafx.graphics;
     exports org.example.tourplanner;
 
     // UI package
@@ -43,4 +45,5 @@ module org.example.tourplanner {
 
     //exports org.example.tourplanner.DAL.database;
     //opens org.example.tourplanner.DAL.database to org.hibernate.orm.core;
+
 }

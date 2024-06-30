@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import org.example.tourplanner.BL.Services.PDFService;
 import org.example.tourplanner.UI.viewmodel.TourViewModel;
 
+import java.net.URL;
+import java.nio.file.Paths;
+
 import static org.example.tourplanner.UI.viewmodel.TourViewModel.getViewModel;
 @Slf4j
 public class EditTourController {
@@ -67,11 +70,23 @@ public class EditTourController {
         transportTypeComboBox.setValue(tour.getTransportType());
         distanceField.setText(String.valueOf(tour.getDistance()));
         estimatedTimeField.setText(tour.getEstimatedTime());
-        if (tour.getImage() != null && !tour.getImage().isEmpty()) {
-            Image image = new Image(tour.getImage());
-            mapImageView.setImage(image);
-        } else {
-            mapImageView.setImage(null);  // Setze auf null oder ein Standardbild
+        String imageUrl = tour.getImage();
+        log.info("Image URL from tour: {}", imageUrl);
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            try {
+                // Anpassung des Pfads
+                String resourcePath = "/Images/" + Paths.get(imageUrl).getFileName().toString();
+                URL imageResource = getClass().getResource(resourcePath);
+                if (imageResource != null) {
+                    Image image = new Image(imageResource.toExternalForm());
+                    mapImageView.setImage(image);
+                    log.info("Image successfully loaded: {}", imageResource.toExternalForm());
+                } else {
+                    log.error("Image resource not found: {}", resourcePath);
+                }
+            } catch (Exception e) {
+                log.error("Error loading image from URL: {}", imageUrl, e);
+            }
         }
     }
     @FXML
