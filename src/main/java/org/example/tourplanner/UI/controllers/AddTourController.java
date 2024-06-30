@@ -76,7 +76,7 @@ public class AddTourController {
                                     transportType,
                                     distance,
                                     estimatedTime,
-                                    null);
+                                    "path");
             tourViewModel.addTour(newTour);
             log.info("Tour saved: {}", newTour);
             dialogStage.close();

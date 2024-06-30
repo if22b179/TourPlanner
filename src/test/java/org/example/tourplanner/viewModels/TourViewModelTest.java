@@ -4,13 +4,17 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.example.tourplanner.BL.Model.Tour;
 import org.example.tourplanner.UI.viewmodel.TourViewModel;
+import org.example.tourplanner.BL.Services.TourService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TourViewModelTest {
     private TourViewModel viewModel;
+    private final TourService tourService = new TourService();
 
     @BeforeEach
     public void setUp() {
@@ -55,5 +59,13 @@ public class TourViewModelTest {
 
         Tour addedTour = viewModel.getTourByName("New Tour");
         assertEquals(newTour, addedTour);
+    }
+
+    @Test
+    public void getAllTest(){
+        List<Tour> tmp = tourService.getAllTours();
+
+        assertNotNull(tmp);
+
     }
 }

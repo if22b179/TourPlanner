@@ -1,5 +1,6 @@
 package org.example.tourplanner.BL.Model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Table(name = "tour")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Tour {
 
     @Id
@@ -41,9 +43,6 @@ public class Tour {
 
     @Column(name = "image", nullable = false)
     private String image;
-
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TourLog> tourLogs = new ArrayList<>();
 
     public Tour(String name, String description, String from, String to, String transportType, Double distance, String estimatedTime, String image) {
         this.name = name;

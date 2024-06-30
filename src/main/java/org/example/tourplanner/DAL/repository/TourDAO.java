@@ -13,11 +13,8 @@ public class TourDAO extends BaseCrudDAO<Tour> {
 
     @Override
     public void save(Tour tour) {
-        System.out.println("bin in save methode kurz vorm save");
         try {
-            System.out.println("im try jz gleich save");
             super.save(tour);
-            System.out.println("nach save");
         } catch (Exception e) {
             log.error("Failed to save tour with id {}", tour.getId(), e);
         }
@@ -46,9 +43,9 @@ public class TourDAO extends BaseCrudDAO<Tour> {
             Query<Tour> query = session.createQuery("FROM Tour WHERE name = :name", Tour.class);
             query.setParameter("name", name);
             Tour tour = query.uniqueResult();
-            if (tour != null) {
+            /*if (tour != null) {
                 Hibernate.initialize(tour.getTourLogs());
-            }
+            }*/
             return tour;
         } catch (Exception e) {
             log.error("Failed to find tour with name {}", name, e);
@@ -60,9 +57,9 @@ public class TourDAO extends BaseCrudDAO<Tour> {
         try (Session session = getSession()) {
             Query<Tour> query = session.createQuery("FROM Tour", Tour.class);
             List<Tour> tours = query.list();
-            for (Tour tour : tours) {
+            /*for (Tour tour : tours) {
                 Hibernate.initialize(tour.getTourLogs());
-            }
+            }*/
             return tours;
         } catch (Exception e) {
             log.error("Failed to find tours with id", e);

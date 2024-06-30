@@ -18,7 +18,7 @@ public class TourDAOTest {
     @BeforeAll
     public static void setup() {
         tourDAO = new TourDAO();
-        testTour = tourDAO.findByName("Test Tour");
+        testTour = new Tour("Test Tour","desc", "from", "to", "nike", 2.0, "w hour", "path");
     }
 
     @Test
@@ -42,9 +42,10 @@ public class TourDAOTest {
     @Test
     public void testUpdateTour() {
         try {
-            testTour.setDescription("Updated Description");
-            tourDAO.update(testTour);
-            Tour updatedTour = tourDAO.findByName(testTour.getName());
+            Tour tmp = tourDAO.findByName("Test Tour");
+            tmp.setDescription("Updated Description");
+            tourDAO.update(tmp);
+            Tour updatedTour = tourDAO.findByName(tmp.getName());
             assertEquals("Updated Description", updatedTour.getDescription(), "Tour description should be updated");
         } catch (Exception e) {
             fail("Failed to update tour: " + e.getMessage());

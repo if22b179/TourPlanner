@@ -82,6 +82,7 @@ public class TourLogController {
             tourLog.setTotalDistance(Double.parseDouble(totalDistanceField.getText()));
             tourLog.setTotalTime(Double.parseDouble(totalTimeField.getText()));
             tourLog.setRating(ratingSpinner.getValue());
+            tourViewModel.editTourLog(tour,tourLog);
         }
         // Close the window after saving
         ((Stage) dateTimeField.getScene().getWindow()).close();

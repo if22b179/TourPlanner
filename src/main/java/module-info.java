@@ -11,6 +11,14 @@ module org.example.tourplanner {
     requires layout;
     requires io;
 
+    requires javafx.graphics;
+    requires java.desktop;
+
+    requires org.apache.logging.log4j;
+    requires org.apache.logging.log4j.core;
+    requires org.apache.logging.log4j.slf4j;
+
+
 
     // Main package
     opens org.example.tourplanner to javafx.fxml;

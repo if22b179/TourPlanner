@@ -8,6 +8,7 @@ import javafx.concurrent.Task;
 import lombok.Getter;
 import org.example.tourplanner.BL.Model.Tour;
 import org.example.tourplanner.BL.Model.TourLog;
+import org.example.tourplanner.BL.Services.TourLogService;
 import org.example.tourplanner.BL.Services.TourService;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class TourViewModel {
     private ObservableList<Tour> tours = FXCollections.observableArrayList();
     private static TourViewModel viewModel;
     private final TourService tourService = new TourService();
+    private final TourLogService tourLogService = new TourLogService();
 
     private TourViewModel() {
         loadTours();
@@ -32,9 +34,7 @@ public class TourViewModel {
     private void loadTours() {
         try {
             List<Tour> dbTours = tourService.getAllTours();
-            System.out.println(dbTours);
             tours.setAll(dbTours);
-            System.out.println(tours);
         } catch (Exception e) {
             System.err.println("Failed to load tours from the database: " + e.getMessage());
             e.printStackTrace();
@@ -65,15 +65,27 @@ public class TourViewModel {
         updatedTour.setTransportType(transportType);
         updatedTour.setDistance(distance);
         updatedTour.setEstimatedTime(estimatedTime);
-        updatedTour.setImage(null);
+        updatedTour.setImage(oldTour.getImage());
         tourService.updateTour(updatedTour);
+        loadTours();
     }
 
     public void addTourLog(Tour tour, TourLog log) {
-        tour.getTourLogs().add(log);
+        log.setTour_id(tour.getId());
+        tourLogService.addTourLog(log);
     }
 
     public void removeTourLog(Tour tour, TourLog log) {
-        tour.getTourLogs().remove(log);
+        log.setTour_id(tour.getId());
+        tourLogService.deleteTourLog(log);
+    }
+
+    public void editTourLog(Tour tour, TourLog log) {
+        log.setTour_id(tour.getId());
+        tourLogService.updateTourLog(log);
+    }
+
+    public List<TourLog> getTourLogs(int id){
+        return tourLogService.getTourLogs(id);
     }
 }

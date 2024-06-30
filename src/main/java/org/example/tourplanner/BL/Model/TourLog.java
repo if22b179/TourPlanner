@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tourLogs")
+@Table(name = "tourlogs")
 @Data
 @NoArgsConstructor
 public class TourLog {
@@ -33,9 +33,19 @@ public class TourLog {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
-    @ManyToOne
-    @JoinColumn(name = "tour_id", nullable = false)
-    private Tour tour;
+
+    @Column(name = "tour_id", nullable = false)
+    private Integer tour_id;
+
+    public TourLog(String dateTime, String comment, Integer difficulty, Double totalDistance, Double totalTime, Integer rating, Integer tour_id) {
+        this.dateTime = dateTime;
+        this.comment = comment;
+        this.difficulty = difficulty;
+        this.totalDistance = totalDistance;
+        this.totalTime = totalTime;
+        this.rating = rating;
+        this.tour_id = tour_id;
+    }
 
     public TourLog(String dateTime, String comment, Integer difficulty, Double totalDistance, Double totalTime, Integer rating) {
         this.dateTime = dateTime;

@@ -3,9 +3,14 @@ package org.example.tourplanner.viewModels;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.example.tourplanner.BL.Model.TourLog;
+import org.example.tourplanner.DAL.repository.TourLogDAO;
 import org.junit.jupiter.api.Test;
+import org.example.tourplanner.BL.Services.TourLogService;
 
 public class TourLogTest {
+
+    private static TourLogDAO tourLogDAO = new TourLogDAO();
+    private static TourLogService tourLogService = new TourLogService();
 
     @Test
     public void testTourLogCreation() {
@@ -50,5 +55,41 @@ public class TourLogTest {
         assertEquals(6.0, tourLog.getTotalTime());
         assertEquals(5, tourLog.getRating());
     }
+
+
+    @Test
+    public void tourLogSaveDAOTest(){
+        // Testdaten
+        String dateTime = "2023-05-18T10:15:30";
+        String comment = "Great hike, beautiful weather.";
+        Integer difficulty = 3;
+        Double totalDistance = 12.5;
+        Double totalTime = 5.0;
+        Integer rating = 4;
+
+        // TourLog-Objekt erstellen
+        TourLog tourLog = new TourLog(dateTime, comment, difficulty , totalDistance, totalTime, rating, 11);
+
+        tourLogDAO.save(tourLog);
+
+    }
+
+    @Test
+    public void tourLogSaveServiceTest(){
+        // Testdaten
+        String dateTime = "iwas";
+        String comment = "abc";
+        Integer difficulty = 3;
+        Double totalDistance = 12.5;
+        Double totalTime = 5.0;
+        Integer rating = 4;
+
+        // TourLog-Objekt erstellen
+        TourLog tourLog = new TourLog(dateTime, comment, difficulty , totalDistance, totalTime, rating, 11);
+
+        tourLogService.addTourLog(tourLog);
+
+    }
+
 }
 

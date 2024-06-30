@@ -3,6 +3,7 @@ package org.example.tourplanner.UI.controllers;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import org.example.tourplanner.UI.viewmodel.TourViewModel;
 
 
 import java.io.IOException;
+import java.util.List;
 
 
 import static org.example.tourplanner.UI.viewmodel.TourViewModel.getViewModel;
@@ -64,7 +66,7 @@ public class TourController {
         // Listener hinzufügen, um die Tour Logs der ausgewählten Tour anzuzeigen
         tourListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                tourLogTable.setItems((ObservableList<TourLog>) newSelection.getTourLogs());
+                refreshTourLogs();
             } else {
                 tourLogTable.setItems(null);
             }
@@ -176,6 +178,7 @@ public class TourController {
     @FXML public void addTourLog() {
         if (isTourSelected()) {
             openTourLogWindow(null);
+            refreshTourLogs();
         }
     }
 
@@ -189,6 +192,7 @@ public class TourController {
                 showAlert("No Log Selected", "Please select a log", "You must select a log to edit.");
             }
         }
+        refreshTourLogs();
     }
 
     @FXML public void deleteTourLog() {
@@ -197,6 +201,7 @@ public class TourController {
             if (selectedLog != null) {
                 Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
                 tourViewModel.removeTourLog(selectedTour, selectedLog);
+                refreshTourLogs();
                 log.debug("Deleted tour log: {}", selectedLog);
             } else {
                 log.warn("No log selected for deletion.");
@@ -252,6 +257,17 @@ public class TourController {
         } catch (Exception e) {
             log.error("failed to generate pdf", e);
             throw new RuntimeException(e);
+        }
+    }
+
+    private void refreshTourLogs() {
+        Tour selectedTour = tourListView.getSelectionModel().getSelectedItem();
+        if (selectedTour != null) {
+            List<TourLog> tourLogs = tourViewModel.getTourLogs(selectedTour.getId());
+            ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList(tourLogs);
+            tourLogTable.setItems(observableTourLogs);
+        } else {
+            tourLogTable.setItems(FXCollections.observableArrayList());
         }
     }
 
