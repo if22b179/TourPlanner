@@ -43,12 +43,12 @@ public class OpenRouteService {
 
     public String getRoute(String fromLat, String fromLon, String toLat, String toLon, String transportType) throws Exception {
         String urlString = String.format("%s%s?api_key=%s&start=%s,%s&end=%s,%s", BASE_URL, transportType, API_KEY, fromLon, fromLat, toLon, toLat);
-        return makeHttpRequest(urlString);
+        return startHttpRequest(urlString);
     }
 
     public double[] geocodeAddress(String address) throws Exception {
         String urlString = String.format("%s?api_key=%s&text=%s", GEOCODE_URL,  API_KEY, URLEncoder.encode(address, StandardCharsets.UTF_8));
-        String response = makeHttpRequest(urlString);
+        String response = startHttpRequest(urlString);
 
         JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
         JsonArray features = jsonObject.getAsJsonArray("features");
@@ -68,20 +68,20 @@ public class OpenRouteService {
         }
         JsonArray features = jsonObject.getAsJsonArray("features");
         if (features == null || features.isEmpty()) {
-            throw new RuntimeException("No features found in the response.");
+            throw new RuntimeException("No features found");
         }
         JsonObject feature = features.get(0).getAsJsonObject();
         JsonObject properties = feature.getAsJsonObject("properties");
         JsonObject summary = properties.getAsJsonObject("summary");
         if (summary == null) {
-            throw new RuntimeException("No summary found in the properties.");
+            throw new RuntimeException("No summary found");
         }
         double distance = summary.get("distance").getAsDouble() / 1000; // Kilometers
         double duration = summary.get("duration").getAsDouble() / 60; // Minutes
         return new RouteInfo(distance, duration);
     }
 
-    public BufferedImage fetchMapForTour(Tour tour, int zoom, int gridSize) throws IOException {
+    public BufferedImage getMap(Tour tour, int zoom, int gridSize) throws IOException {
         double[] fromCoords = null;
         try {
             fromCoords = geocodeAddress(tour.getFrom());
@@ -117,7 +117,7 @@ public class OpenRouteService {
         return destinationPath.toString();
     }
 
-    private String makeHttpRequest(String urlString) throws Exception {
+    public String startHttpRequest(String urlString) throws Exception {
         URI uri = new URI(urlString);
         HttpURLConnection conn = (HttpURLConnection) uri.toURL().openConnection();
         conn.setRequestMethod("GET");

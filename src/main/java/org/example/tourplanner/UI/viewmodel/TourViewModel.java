@@ -129,7 +129,7 @@ public class TourViewModel {
 
     public void getMapImage(Tour tour) {
         try {
-            BufferedImage mapImage = openRouteService.fetchMapForTour(tour, 17, 3); // Adjusted zoom level
+            BufferedImage mapImage = openRouteService.getMap(tour, 17, 3); // Adjusted zoom level
             String imagePath = openRouteService.saveImage(mapImage);
             tour.setImage(imagePath);
         } catch (IOException e) {
