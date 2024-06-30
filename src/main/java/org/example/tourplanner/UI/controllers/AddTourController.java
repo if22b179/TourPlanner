@@ -59,6 +59,9 @@ public class AddTourController {
         String to = toField.getText();
         String transportType = transportTypeComboBox.getSelectionModel().getSelectedItem();
         double distance;
+
+
+
         try {
             distance = Double.parseDouble(distanceField.getText());
         } catch (NumberFormatException e) {
@@ -77,6 +80,7 @@ public class AddTourController {
                                     distance,
                                     estimatedTime,
                                     "path");
+
             tourViewModel.addTour(newTour);
             log.info("Tour saved: {}", newTour);
             dialogStage.close();
@@ -98,4 +102,6 @@ public class AddTourController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+
 }

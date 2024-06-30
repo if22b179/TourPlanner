@@ -27,9 +27,8 @@
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Bike"/>
-                    <String fx:value="Hike"/>
-                    <String fx:value="Running"/>
-                    <String fx:value="Vacation"/>
+                    <String fx:value="Foot"/>
+                    <String fx:value="Car"/>
                 </FXCollections>
             </items>
         </ComboBox>
