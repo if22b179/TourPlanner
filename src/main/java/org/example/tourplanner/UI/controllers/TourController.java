@@ -42,6 +42,9 @@ public class TourController {
     private TourViewModel tourViewModel;
     private final PDFService pdfService;
 
+    private boolean isDarkMode = false;
+
+
     public TourController() {
         this.tourViewModel = getViewModel();
         this.pdfService = PDFService.getPDFService();
@@ -83,6 +86,29 @@ public class TourController {
         // Placeholder für das Routenbild
         placeholderLabel.setText("Placeholder for Route Image");
     }
+
+    @FXML
+    private void toggleDarkMode() {
+        isDarkMode = !isDarkMode;
+        applyDarkMode();
+    }
+
+    private void applyDarkMode() {
+        Scene scene = tourListView.getScene(); // Get the current scene
+        String darkModeCSS = getClass().getResource("/org/example/tourplanner/css/darkmode.css") != null ?
+                getClass().getResource("/org/example/tourplanner/css/darkmode.css").toExternalForm() : null;
+        if (darkModeCSS == null) {
+            log.error("darkmode.css not found. Make sure the file is in the correct resources directory.");
+            return;
+        }
+        if (isDarkMode) {
+            scene.getStylesheets().add(darkModeCSS);
+        } else {
+            scene.getStylesheets().remove(darkModeCSS);
+        }
+    }
+
+
 
     @FXML
     public void addTour() {

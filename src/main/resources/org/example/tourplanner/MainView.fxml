@@ -18,7 +18,10 @@
         <MenuItem text="Paste"/>
         <MenuItem text="Delete"/>
       </Menu>
-      <Menu text="Options"/>
+      <Menu text="Options">
+        <MenuItem text="Settings"/>
+        <CheckMenuItem text="Dark Mode" onAction="#toggleDarkMode"/>
+      </Menu>
       <Menu text="Help"/>
     </MenuBar>
   </top>
